@@ -16,13 +16,24 @@ const getDescription = async function(req, res, next) {
   try {
 
     // Get prompt from request
-    let prompt = req.body.prompt;
+    // let prompt = req.body.prompt;
+    let title = req.body.title;
+    let years = req.body.years;
+    let location = req.body.location;
+    let email = req.body.email;
+
+    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience with the following headings:
+    Job Title,
+    Location,
+    Job Overview,
+    Requirements,
+    Years of Experience,
+    Contact Details
+    The contact email is ${email}`;
 
     if (prompt === null) {
       throw new Error("Uh oh, no prompt was provided");
     }
-
-    prompt = `Write a 500 word job description for a ${prompt}`;
 
     // Call OpenAi Completion API
     const response = await openai.createCompletion({

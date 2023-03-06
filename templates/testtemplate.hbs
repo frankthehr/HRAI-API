@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+{{!-- <head><link rel="stylesheet" href="invoice.css"></head> --}}
+<body style="padding: 3rem">
+    <h3 style="margin-left: auto">{{ job.company.name }}</h3>
+    <p style="margin-left: auto">{{ job.company.address }}</p>
+
+    <h1 style="margin-top: 3rem">Job Description</h1>
+    <p><strong>Job Title:</strong> {{ job.role }}</p>
+    <p><strong>Location:</strong> {{ job.location }}</p>
+
+    <h4 style="margin-top: 1rem">Overview:</h4>
+    <p>{{ job.overview }}</p>
+
+    <h4 style="margin-top: 1rem">Requirements:</h4>
+    <ul>
+      {{#each job.requirements}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+
+    <p><strong>Years of Experience:</strong> {{ job.years }}</p>
+    <p><strong>Contact Details:</strong></p>
+    <p>{{ job.contact }}</p>
+</body>
+</html>

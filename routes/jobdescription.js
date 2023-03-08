@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import express  from 'express';
-import { jsPDF } from "jspdf";
 import { Configuration, OpenAIApi } from "openai";
 
 import puppeteer from 'puppeteer';
@@ -10,12 +9,6 @@ import path from 'path';
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
 
-const compilePDf = async function(templateType, data) {
-  const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
-  const html = await fs.readFile(filePath, 'utf-8');
-  return hbs.compile(html)(data);
-}
-
 dotenv.config();
 
 const router = express.Router();
@@ -24,22 +17,24 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const openai = new OpenAIApi(configuration);
+
 const removeLeading = (string) => {
-  console.log(string);
   while (string.length > 0 && string[0] !== '{') {
     string = string.substring(1);
   }
-  console.log(string);
   return string;
 }
 
-const openai = new OpenAIApi(configuration);
+const compilePDf = async function(templateType, data) {
+  const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
+  const html = await fs.readFile(filePath, 'utf-8');
+  return hbs.compile(html)(data);
+}
 
 const getDescription = async function(req, res, next) {
   try {
 
-    // Get prompt from request
-    // let prompt = req.body.prompt;
     let title = req.body.title;
     let years = req.body.years;
     let location = req.body.location;
@@ -56,7 +51,7 @@ const getDescription = async function(req, res, next) {
 
     // let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details"`;
 
-    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Return the requirements as an array`;
+    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array`;
 
     if (prompt === null) {
       throw new Error("Uh oh, no prompt was provided");
@@ -72,27 +67,15 @@ const getDescription = async function(req, res, next) {
 
     const completion = response.data.choices[0].text;
 
-    let backticks = `${completion}`;
+    let completionCleaned = completion.replace(/[\n\r]/g, '');
 
-    let parsed = backticks.replace(/[\n\r]/g, '');
+    let parsedCompletion = removeLeading(completionCleaned);
 
-    let replaced = completion.replace(/[\n\r]/g, '');
-
-    console.log(replaced);
-
-    let parsedReplaced = removeLeading(replaced);
-
-    let replacedJSON = JSON.parse(parsedReplaced);
-
-    console.log(replacedJSON);
-
-    console.log(typeof replacedJSON);
+    const completionJSON = JSON.parse(parsedCompletion);
 
     req.prompt = prompt;
     req.completion = completion;
-    req.parsed = parsed;
-    req.replaced = replaced;
-    req.replacedJSON = replacedJSON;
+    req.completionJSON = completionJSON;
 
     next();
   } catch (error) {
@@ -104,7 +87,7 @@ const getDescription = async function(req, res, next) {
 const createPDF = async function(req, res, next) {
   try {
 
-    const jsondata = req.replacedJSON;
+    const jsondata = req.completionJSON;
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -112,12 +95,6 @@ const createPDF = async function(req, res, next) {
     const content = await compilePDf('testtemplate', jsondata);
 
     await page.setContent(content);
-
-    // await page.pdf({
-    //   path: 'mypdf.pdf',
-    //   format: 'A4',
-    //   printBackground: true
-    // })
 
     const pdf = await page.pdf({
       format: 'A4',
@@ -144,16 +121,13 @@ router
     // const data = {
     //   prompt: req.prompt,
     //   completion: req.completion,
-    //   parsed: req.parsed,
-    //   replaced: req.replaced,
-    //   jsonData: req.replacedJSON
+    //   jsonData: req.completionJSON
     // }
     // res.send(data);
 
     const pdf = req.pdf;
     res.header('Content-type', 'application/pdf');
     res.contentType("application/pdf");
-    // res.download(pdf);
     res.send(pdf);
   })
 

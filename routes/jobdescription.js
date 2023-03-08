@@ -36,14 +36,18 @@ const getDescription = async function(req, res, next) {
     let location = req.body.location;
     let email = req.body.email;
 
-    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience with the following headings:
-    Job Title,
-    Location,
-    Job Overview,
-    Requirements,
-    Years of Experience,
-    Contact Details
-    The contact email is ${email}`;
+    // let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience with the following headings:
+    // Job Title,
+    // Location,
+    // Job Overview,
+    // Requirements,
+    // Years of Experience,
+    // Contact Details
+    // The contact email is ${email}`;
+
+    // let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details"`;
+
+    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Return the requirements as an array`;
 
     if (prompt === null) {
       throw new Error("Uh oh, no prompt was provided");
@@ -59,8 +63,27 @@ const getDescription = async function(req, res, next) {
 
     const completion = response.data.choices[0].text;
 
+    let backticks = `${completion}`;
+
+    let parsed = backticks.replace(/[\n\r]/g, '');
+
+    let replaced = completion.replace(/[\n\r]/g, '');
+
+    console.log(replaced);
+
+    let replacedJSON = JSON.parse(replaced);
+
+    // let replacedJSON = replaced;
+
+    console.log(replacedJSON);
+
+    console.log(typeof replacedJSON);
+
     req.prompt = prompt;
     req.completion = completion;
+    req.parsed = parsed;
+    req.replaced = replaced;
+    req.replacedJSON = replacedJSON;
 
     next();
   } catch (error) {
@@ -72,14 +95,12 @@ const getDescription = async function(req, res, next) {
 const createPDF = async function(req, res, next) {
   try {
 
-    const completion = req.completion;
+    const jsondata = req.replacedJSON;
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    console.log(jobdata)
-
-    const content = await compilePDf('testtemplate', jobdata);
+    const content = await compilePDf('testtemplate', jsondata);
 
     // const content = '<h1>Hello</h1>';
 
@@ -108,12 +129,14 @@ router
     console.log('Job Description Generated');
     const data = {
       prompt: req.prompt,
-      completion: req.completion
+      completion: req.completion,
+      parsed: req.parsed,
+      replaced: req.replaced,
+      jsonData: req.replacedJSON
     }
     res.send(data);
   })
 
 export default router;
-
 
 

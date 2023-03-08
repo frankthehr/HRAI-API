@@ -1,6 +1,20 @@
 import dotenv from 'dotenv';
 import express  from 'express';
+import { jsPDF } from "jspdf";
 import { Configuration, OpenAIApi } from "openai";
+
+import puppeteer from 'puppeteer';
+import fs from 'fs-extra';
+import hbs from 'handlebars';
+import path from 'path';
+import data from '../data/testdata.json' assert { type: "json" };
+import jobdata from '../data/jobdata.json' assert { type: "json" };
+
+const compilePDf = async function(templateType, data) {
+  const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
+  const html = await fs.readFile(filePath, 'utf-8');
+  return hbs.compile(html)(data);
+}
 
 dotenv.config();
 
@@ -16,13 +30,32 @@ const getDescription = async function(req, res, next) {
   try {
 
     // Get prompt from request
-    let prompt = req.body.prompt;
+    // let prompt = req.body.prompt;
+    let title = req.body.title;
+    let years = req.body.years;
+    let location = req.body.location;
+    let email = req.body.email;
+
+    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience with the following headings:
+    Job Title,
+    Location,
+    Job Overview,
+    Requirements,
+    Years of Experience,
+    Contact Details
+    The contact email is ${email}`;
+
+    // let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys:
+    // job_title,
+    // location,
+    // job_overview,
+    // requirements,
+    // years_of_experience,
+    // contact_details`;
 
     if (prompt === null) {
       throw new Error("Uh oh, no prompt was provided");
     }
-
-    prompt = `Rédigez une description et exigence de poste de 500 mots pour un  ${prompt}`;
 
     // Call OpenAi Completion API
     const response = await openai.createCompletion({
@@ -44,9 +77,36 @@ const getDescription = async function(req, res, next) {
   }
 }
 
+const createPDF = async function(req, res, next) {
+  try {
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    const content = await compilePDf('testtemplate', jobdata);
+
+    await page.setContent(content);
+    // await page.emulateMedia('screen');
+    await page.pdf({
+      path: 'mypdf.pdf',
+      format: 'A4',
+      printBackground: true
+    })
+
+    console.log('Done');
+    await browser.close();
+    // process.exit();
+
+    next();
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+}
+
 router
   .route('/')
-  .post([getDescription], function(req, res) {
+  .post([getDescription, createPDF], function(req, res) {
     console.log('Job Description Generated');
     const data = {
       prompt: req.prompt,
@@ -56,3 +116,6 @@ router
   })
 
 export default router;
+
+
+

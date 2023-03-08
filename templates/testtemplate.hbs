@@ -2,25 +2,25 @@
 <html>
 {{!-- <head><link rel="stylesheet" href="invoice.css"></head> --}}
 <body style="padding: 3rem">
-    <h3 style="margin-left: auto">{{ job.company.name }}</h3>
-    <p style="margin-left: auto">{{ job.company.address }}</p>
+    <h3 style="margin-left: auto">Tesco Ireland</h3>
+    <p style="margin-left: auto">123 Avenue, Dublin, Ireland, D09 E9J2</p>
 
     <h1 style="margin-top: 3rem">Job Description</h1>
-    <p><strong>Job Title:</strong> {{ job.role }}</p>
-    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Job Title:</strong> {{ job_title }}</p>
+    <p><strong>Location:</strong> {{ location }}</p>
 
     <h4 style="margin-top: 1rem">Overview:</h4>
-    <p>{{ job.overview }}</p>
+    <p>{{ job_overview }}</p>
 
     <h4 style="margin-top: 1rem">Requirements:</h4>
+    {{!-- <p>{{ requirements }}</p> --}}
     <ul>
-      {{#each job.requirements}}
+      {{#each requirements}}
         <li>{{this}}</li>
       {{/each}}
     </ul>
 
-    <p><strong>Years of Experience:</strong> {{ job.years }}</p>
-    <p><strong>Contact Details:</strong></p>
-    <p>{{ job.contact }}</p>
+    <p><strong>Years of Experience:</strong> {{ years_of_experience }}</p>
+    <p><strong>Contact Details:</strong> {{ contact_details }}</p>
 </body>
 </html>

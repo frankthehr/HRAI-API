@@ -24,6 +24,15 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const removeLeading = (string) => {
+  console.log(string);
+  while (string.length > 0 && string[0] !== '{') {
+    string = string.substring(1);
+  }
+  console.log(string);
+  return string;
+}
+
 const openai = new OpenAIApi(configuration);
 
 const getDescription = async function(req, res, next) {
@@ -71,9 +80,9 @@ const getDescription = async function(req, res, next) {
 
     console.log(replaced);
 
-    let replacedJSON = JSON.parse(replaced);
+    let parsedReplaced = removeLeading(replaced);
 
-    // let replacedJSON = replaced;
+    let replacedJSON = JSON.parse(parsedReplaced);
 
     console.log(replacedJSON);
 
@@ -102,15 +111,20 @@ const createPDF = async function(req, res, next) {
 
     const content = await compilePDf('testtemplate', jsondata);
 
-    // const content = '<h1>Hello</h1>';
-
     await page.setContent(content);
-    // await page.emulateMedia('screen');
-    await page.pdf({
-      path: 'mypdf.pdf',
+
+    // await page.pdf({
+    //   path: 'mypdf.pdf',
+    //   format: 'A4',
+    //   printBackground: true
+    // })
+
+    const pdf = await page.pdf({
       format: 'A4',
       printBackground: true
     })
+
+    req.pdf = pdf;
 
     console.log('Done');
     await browser.close();
@@ -127,14 +141,20 @@ router
   .route('/')
   .post([getDescription, createPDF], function(req, res) {
     console.log('Job Description Generated');
-    const data = {
-      prompt: req.prompt,
-      completion: req.completion,
-      parsed: req.parsed,
-      replaced: req.replaced,
-      jsonData: req.replacedJSON
-    }
-    res.send(data);
+    // const data = {
+    //   prompt: req.prompt,
+    //   completion: req.completion,
+    //   parsed: req.parsed,
+    //   replaced: req.replaced,
+    //   jsonData: req.replacedJSON
+    // }
+    // res.send(data);
+
+    const pdf = req.pdf;
+    res.header('Content-type', 'application/pdf');
+    res.contentType("application/pdf");
+    // res.download(pdf);
+    res.send(pdf);
   })
 
 export default router;

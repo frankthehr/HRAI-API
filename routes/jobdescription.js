@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
-import express  from 'express';
-import { Configuration, OpenAIApi } from "openai";
-
-import puppeteer from 'puppeteer';
-import fs from 'fs-extra';
-import hbs from 'handlebars';
 import path from 'path';
+import fs from 'fs-extra';
+import dotenv from 'dotenv';
+import hbs from 'handlebars';
+import express  from 'express';
+import puppeteer from 'puppeteer';
+import { Configuration, OpenAIApi } from "openai";
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
 
@@ -19,6 +18,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+// Removes all characters before the first '{' and then returns the new string
 const removeLeading = (string) => {
   while (string.length > 0 && string[0] !== '{') {
     string = string.substring(1);
@@ -26,6 +26,16 @@ const removeLeading = (string) => {
   return string;
 }
 
+const removeTrailing = (string) => {
+  let len = string.length;
+  while (len > 0 && string[len - 1] !== '}') {
+    string = string.substring(0, len - 1);
+    len = string.length;
+  }
+  return string;
+}
+
+// Compiles passed data into passed template
 const compilePDf = async function(templateType, data) {
   const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
   const html = await fs.readFile(filePath, 'utf-8');
@@ -35,11 +45,13 @@ const compilePDf = async function(templateType, data) {
 const getDescription = async function(req, res, next) {
   try {
 
+    // Get prompt variables from request
     let title = req.body.title;
     let years = req.body.years;
     let location = req.body.location;
     let email = req.body.email;
 
+    // Create prompt with request variables
     let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array of strings with at least 8 requirements`;
 
     if (prompt === null) {
@@ -58,12 +70,13 @@ const getDescription = async function(req, res, next) {
     const completion = response.data.choices[0].text;
 
     // Remove all newline characters from completion
-    let completionCleaned = completion.replace(/[\n\r]/g, '');
+    const completionCleaned = completion.replace(/[\n\r]/g, '');
 
     // Remove all characters before the JSON object
-    let parsedCompletion = removeLeading(completionCleaned);
+    const parsedLeadingCompletion = removeLeading(completionCleaned);
 
     // Remove all characters after the JSON object
+    const parsedCompletion = removeTrailing(parsedLeadingCompletion);
 
     // Convert completion from string representation of JSON to actual JSON
     const completionJSON = JSON.parse(parsedCompletion);

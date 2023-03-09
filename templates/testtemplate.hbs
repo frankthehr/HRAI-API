@@ -9,13 +9,26 @@
     <h4 style="margin-top: 1rem">Overview:</h4>
     <p>{{ job_overview }}</p>
 
-    <h4 style="margin-top: 1rem">Requirements:</h4>
+    {{!-- <h4 style="margin-top: 1rem">Requirements:</h4> --}}
     {{!-- <p>{{ requirements }}</p> --}}
-    <ul>
+    {{!-- <ul>
       {{#each requirements}}
         <li>{{this}}</li>
       {{/each}}
-    </ul>
+    </ul> --}}
+
+    <table style="border: 1px solid black; width: 100%">
+      <tr style="border: 1px solid black; text-align: left">
+        <th style="border: 1px solid black; padding: 0.25rem; display: flex; justify-content: flex-start; text-align: left">Requirements</th>
+      </tr>
+
+      {{#each requirements}}
+        <tr style="border: 1px solid black">
+          <td style="border: 1px solid black; padding: 0.25rem">{{this}}</td>
+        </tr>
+      {{/each}}
+
+    </table>
 
     <p><strong>Years of Experience:</strong> {{ years_of_experience }}</p>
     <p><strong>Contact Details:</strong> {{ contact_details }}</p>

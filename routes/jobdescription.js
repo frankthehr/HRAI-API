@@ -18,7 +18,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-// Removes all characters before the first '{' and then returns the new string
+// Removes all characters before the first '{' and then returns the string
 const removeLeading = (string) => {
   while (string.length > 0 && string[0] !== '{') {
     string = string.substring(1);
@@ -26,6 +26,7 @@ const removeLeading = (string) => {
   return string;
 }
 
+// Removes all characters after the last '}' and then returns the string
 const removeTrailing = (string) => {
   let len = string.length;
   while (len > 0 && string[len - 1] !== '}') {
@@ -77,6 +78,8 @@ const getDescription = async function(req, res, next) {
 
     // Remove all characters after the JSON object
     const parsedCompletion = removeTrailing(parsedLeadingCompletion);
+
+    console.log(parsedCompletion);
 
     // Convert completion from string representation of JSON to actual JSON
     const completionJSON = JSON.parse(parsedCompletion);

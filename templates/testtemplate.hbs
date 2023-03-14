@@ -62,7 +62,10 @@
     .details,
     .overview,
     .responsibility,
-    .competencies {
+    .competencies,
+    .profile,
+    .qualification,
+    .pdf-footer {
       margin-bottom: 1rem;
     }
 
@@ -82,6 +85,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+      gap: 0.75rem;
     }
 
     .overview header {
@@ -134,7 +138,7 @@
 
     .competencies header {
       display: grid;
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 2fr 5fr;
       width: 100%;
       background-color: rgb(200, 200, 200);
     }
@@ -145,6 +149,7 @@
 
     .competencie-name,
     .competencie-description {
+      padding: 0.25rem;
       padding-left: 0.5rem;
     }
 
@@ -153,9 +158,74 @@
     .comp-communications,
     .comp-problem {
       display: grid;
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 2fr 5fr;
       width: 100%;
       border-top: 1px solid black;
+    }
+
+    .qualification {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    .qualification header {
+      display: grid;
+      grid-template-columns: 2fr 5fr;
+      width: 100%;
+      background-color: rgb(200, 200, 200);
+    }
+
+    .qualification-name {
+      border-right: 1px solid black;
+    }
+
+    .qualification-name,
+    .qualification-description {
+      padding: 0.25rem;
+      padding-left: 0.5rem;
+    }
+
+    .qual-experience,
+    .qual-education,
+    .qual-study,
+    .qual-knowledge {
+      display: grid;
+      grid-template-columns: 2fr 5fr;
+      width: 100%;
+      border-top: 1px solid black;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+
+    .profile header {
+      width: 100%;
+      background-color: black;
+      padding: 0.1rem;
+      padding-left: 0.5rem;
+    }
+
+    .profile h3 {
+      color: white;
+    }
+
+    .pdf-footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .pdf-footer p {
+      text-align: center;
+      font-style: italic;
     }
 
   </style>
@@ -275,7 +345,86 @@
       </div>
     </div>
 
-    <p><strong>Years of Experience:</strong> {{ years_of_experience }}</p>
-    <p><strong>Contact Details:</strong> {{ contact_details }}</p>
+    <div class="profile">
+      <header>
+        <h3>Candidate Profile</h3>
+      </header>
+
+      <h4>Qualifications</h4>
+
+      <p>This section should describe the education, experience and skills required / preferred for the position.</p>
+    </div>
+
+    <div class="qualification">
+      <header>
+        <div class="qualification-name">
+          <h3>Area Qualification</h3>
+        </div>
+
+        <div class="qualification-description">
+          <h3>Description of what's needed</h3>
+        </div>
+      </header>
+
+      <div class="qual-experience">
+        <div class="qualification-name">
+          <h4>Experience</h4>
+        </div>
+
+        <div class="qualification-description">
+          <p>Years of Relevant Experience Required:</p> 
+          <p>{{ years_of_experience }}</p>
+        </div>
+      </div>
+
+      <div class="qual-education">
+        <div class="qualification-name">
+          <h4>Education</h4>
+        </div>
+
+        <div class="qualification-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+
+      <div class="qual-study">
+        <div class="qualification-name">
+          <h4>Field of Study</h4>
+        </div>
+
+        <div class="qualification-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+
+      <div class="qual-knowledge">
+        <div class="qualification-name">
+          <h4>Knowledge, Skills and Abilities</h4>
+        </div>
+
+        <div class="qualification-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+    </div>
+
+    <footer class="pdf-footer">
+      <p>This description has been designed to indicate the general nature of and the criteria required to perform this function. It will be subject to regular review with the post holder and your Manager.</p>
+
+      <p>Company Name trading as Trading Name is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
+    </footer>
+
 </body>
 </html>

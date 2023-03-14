@@ -1,34 +1,279 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" href="template.css"></head>
-<body style="padding: 3rem">
-    <h1 style="margin-top: 3rem">Job Description</h1>
-    <p><strong>Job Title:</strong> {{ job_title }}</p>
-    <p><strong>Location:</strong> {{ location }}</p>
+<head>
+  <link rel="stylesheet" href="template.css">
 
-    <h4 style="margin-top: 1rem">Overview:</h4>
-    <p>{{ job_overview }}</p>
+  <style>
 
-    {{!-- <h4 style="margin-top: 1rem">Requirements:</h4> --}}
-    {{!-- <p>{{ requirements }}</p> --}}
-    {{!-- <ul>
-      {{#each requirements}}
-        <li>{{this}}</li>
-      {{/each}}
-    </ul> --}}
+    :root {
 
-    <table style="border: 1px solid black; width: 100%;">
-      <tr style="border: 1px solid black; text-align: left">
-        <th style="border: 1px solid black; padding: 0.25rem; display: flex; justify-content: flex-start; text-align: left">Requirements</th>
-      </tr>
+    }
 
-      {{#each requirements}}
-        <tr style="border: 1px solid black">
-          <td style="border: 1px solid black; padding: 0.25rem">{{this}}</td>
-        </tr>
-      {{/each}}
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+    }
 
-    </table>
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+    }
+
+    img,
+    svg,
+    video,
+    canvas,
+    picture {
+      display: block;
+      max-width: 100%;
+    }
+
+    input,
+    button,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    span {
+      overflow-wrap: break-word;
+    }
+
+    * {
+      font-size: 14px;
+      font-family: sans-serif;
+    }
+
+    .details,
+    .overview,
+    .responsibility,
+    .competencies {
+      margin-bottom: 1rem;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .details > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overview {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overview header {
+      width: 100%;
+      background-color: black;
+      padding: 0.1rem;
+      padding-left: 0.5rem;
+    }
+
+    .overview h3 {
+      color: white;
+    }
+
+    .responsibility {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    .responsibility header {
+      width: 100%;
+      padding: 0.1rem;
+      padding-left: 0.5rem;
+      border-bottom: 1px solid black;
+      background-color: rgb(200, 200, 200);
+    }
+
+    .responsibility header h3 {
+      color: black;
+    }
+
+    .responsibility div {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .responsibility div li {
+      color: black;
+      list-style: circle;
+      margin-left: 2rem;
+    }
+
+    .competencies {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    .competencies header {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      width: 100%;
+      background-color: rgb(200, 200, 200);
+    }
+
+    .competencie-name {
+      border-right: 1px solid black;
+    }
+
+    .competencie-name,
+    .competencie-description {
+      padding-left: 0.5rem;
+    }
+
+    .comp-confidence,
+    .comp-results,
+    .comp-communications,
+    .comp-problem {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      width: 100%;
+      border-top: 1px solid black;
+    }
+
+  </style>
+</head>
+<body>
+
+    <div class="details">
+      <div>
+        <h5>Job Title:</h5>
+        <span>{{ job_title }}</span>
+      </div>
+
+      <div>
+        <h5>Date:</h5>
+        <span>10/05/2023</span>
+      </div>
+
+      <div>
+        <h5>Location:</h5>
+        <span>{{ location }}</span>
+      </div>
+
+      <div>
+        <h5>Reports to:</h5>
+        <span>Line Manager</span>
+      </div>
+    </div>
+
+    <div class="overview">
+      <header>
+        <h3>Job Overview</h3>
+      </header>
+    
+      <p>{{ job_overview }}</p>
+    </div>
+
+
+    <div class="responsibility">
+      <header>
+        <h3>Responsibility / Activity</h3>
+      </header>
+
+      <div>
+        <ul>
+          {{#each requirements}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>   
+      </div>
+    </div>
+
+    <div class="competencies">
+      <header>
+        <div class="competencie-name">
+          <h3>Competencies Required</h3>
+        </div>
+
+        <div class="competencie-description">
+          <h3>Description of Role / Responsibility</h3>
+        </div>
+      </header>
+
+      <div class="comp-confidence">
+        <div class="competencie-name">
+          <h4>Self Confidence</h4>
+        </div>
+
+        <div class="competencie-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+
+      <div class="comp-results">
+        <div class="competencie-name">
+          <h4>Results Driven</h4>
+        </div>
+
+        <div class="competencie-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+
+      <div class="comp-communications">
+        <div class="competencie-name">
+          <h4>Communications</h4>
+        </div>
+
+        <div class="competencie-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+
+      <div class="comp-problem">
+        <div class="competencie-name">
+          <h4>Communications</h4>
+        </div>
+
+        <div class="competencie-description">
+          <ul>
+            {{#each requirements}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>  
+        </div>
+      </div>
+    </div>
 
     <p><strong>Years of Experience:</strong> {{ years_of_experience }}</p>
     <p><strong>Contact Details:</strong> {{ contact_details }}</p>

@@ -116,6 +116,7 @@ const createPDF = async function(req, res, next) {
     // Format page and store it as variable
     const pdf = await page.pdf({
       format: 'A4',
+      margin: { top: "2cm", bottom: "2cm", left: "2cm", right: "2cm" },
       printBackground: true
     })
 

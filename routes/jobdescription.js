@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import hbs from 'handlebars';
 import express  from 'express';
 import puppeteer from 'puppeteer';
+import { format } from 'date-fns';
 import { Configuration, OpenAIApi } from "openai";
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
@@ -17,6 +18,9 @@ const configuration = new Configuration({
 });
 
 const openai = new OpenAIApi(configuration);
+
+// Defined bulletpoint unicode codepoint
+const bulletpoint = '\u2022';
 
 // Removes all characters before the first '{' and then returns the string
 const removeLeading = (string) => {
@@ -34,6 +38,12 @@ const removeTrailing = (string) => {
     len = string.length;
   }
   return string;
+}
+
+// Prepends string with bulletpoint character
+const prependBulletpoint = (string) => {
+  const formattedString = `${bulletpoint} ${string}`
+  return formattedString;
 }
 
 // Compiles passed data into passed template
@@ -84,6 +94,21 @@ const getDescription = async function(req, res, next) {
 
     // Convert completion from string representation of JSON to actual JSON
     const completionJSON = JSON.parse(parsedCompletion);
+
+    console.log(completionJSON);
+
+    completionJSON.company = "B2E trading as The HR Company";
+
+    completionJSON.employee = "Jane Doe";
+
+    // Create formatted date string
+    const formattedDate = format(new Date(), 'PPP');
+
+    // Add date object to JSON
+    completionJSON.date = formattedDate;
+
+    // Prepend bulletpoints to requirements
+    completionJSON.requirements = completionJSON.requirements.map(prependBulletpoint);
 
     // Store variables in request
     req.prompt = prompt;

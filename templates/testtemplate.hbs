@@ -59,6 +59,7 @@
       font-family: sans-serif;
     }
 
+    .title,
     .details,
     .overview,
     .responsibility,
@@ -66,7 +67,19 @@
     .profile,
     .qualification,
     .pdf-footer {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .title h1 {
+      font-size: 2rem;
+      text-align: center;
     }
 
     .details {
@@ -121,12 +134,6 @@
     .responsibility div {
       width: 100%;
       padding: 1rem;
-    }
-
-    .responsibility div li {
-      color: black;
-      list-style: circle;
-      margin-left: 2rem;
     }
 
     .competencies {
@@ -200,7 +207,6 @@
     .profile {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
       width: 100%;
     }
 
@@ -209,10 +215,12 @@
       background-color: black;
       padding: 0.1rem;
       padding-left: 0.5rem;
+      margin-bottom: 0.75rem;
     }
 
     .profile h3 {
       color: white;
+      margin-bottom: 0.25rem;
     }
 
     .pdf-footer {
@@ -232,6 +240,10 @@
 </head>
 <body>
 
+    <header class="title">
+      <h1>{{ company }}</h1>
+    </header>
+
     <div class="details">
       <div>
         <h5>Job Title:</h5>
@@ -240,7 +252,7 @@
 
       <div>
         <h5>Date:</h5>
-        <span>10/05/2023</span>
+        <span>{{ date }}</span>
       </div>
 
       <div>
@@ -423,7 +435,7 @@
     <footer class="pdf-footer">
       <p>This description has been designed to indicate the general nature of and the criteria required to perform this function. It will be subject to regular review with the post holder and your Manager.</p>
 
-      <p>Company Name trading as Trading Name is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
+      <p>{{ company }} is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
     </footer>
 
 </body>

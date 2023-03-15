@@ -1,0 +1,10 @@
+{
+  "company": {
+    "name": "B2E",
+    "trading": "The HR Company"
+  },
+  "employee": {
+    "first_name": "Jane",
+    "last_name": "Doe"
+  }
+}

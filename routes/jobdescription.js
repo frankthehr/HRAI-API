@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { Configuration, OpenAIApi } from "openai";
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
+import portaldata from '../data/portaldata.json' assert { type: "json" };
 
 dotenv.config();
 
@@ -97,9 +98,13 @@ const getDescription = async function(req, res, next) {
 
     console.log(completionJSON);
 
-    completionJSON.company = "B2E trading as The HR Company";
-
-    completionJSON.employee = "Jane Doe";
+    // Adding portal data to JSON object
+    completionJSON.company = {};
+    completionJSON.employee = {};
+    completionJSON.company.name = portaldata.company.name;
+    completionJSON.company.trading = portaldata.company.trading;
+    completionJSON.employee.first_name = portaldata.employee.first_name;
+    completionJSON.employee.last_name = portaldata.employee.last_name;
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');

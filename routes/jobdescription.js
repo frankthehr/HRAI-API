@@ -9,6 +9,7 @@ import { Configuration, OpenAIApi } from "openai";
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
 import portaldata from '../data/portaldata.json' assert { type: "json" };
+import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
 
 dotenv.config();
 
@@ -22,6 +23,25 @@ const openai = new OpenAIApi(configuration);
 
 // Defined bulletpoint unicode codepoint
 const bulletpoint = '\u2022';
+
+const compSwitch = (level, comp) => {
+  switch (level) {
+    case 1:
+      return comp.one;
+      break;
+    case 2:
+      return comp.two;
+      break;
+    case 3:
+      return comp.three;
+      break;
+    case 4:
+      return comp.four;
+      break;
+    default:
+      return undefined;
+  }
+}
 
 // Removes all characters before the first '{' and then returns the string
 const removeLeading = (string) => {
@@ -62,7 +82,12 @@ const getDescription = async function(req, res, next) {
     let years = req.body.years;
     let location = req.body.location;
     let email = req.body.email;
-    let actionComp = req.body.actionComp;
+    let actionComp = Number(req.body.actionComp);
+    let composureComp = Number(req.body.composureComp);
+    let convictionComp = Number(req.body.convictionComp);
+    let creativityComp = Number(req.body.creativityComp);
+    let ambiguityComp = Number(req.body.ambiguityComp);
+    let integrityComp = Number(req.body.integrityComp);
 
     // Create prompt with request variables
     let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array of strings with at least 8 requirements.`;
@@ -106,6 +131,15 @@ const getDescription = async function(req, res, next) {
     completionJSON.company.trading = portaldata.company.trading;
     completionJSON.employee.first_name = portaldata.employee.first_name;
     completionJSON.employee.last_name = portaldata.employee.last_name;
+
+    // Add compentencies data to JSON
+    completionJSON.competencies = {};
+    completionJSON.competencies.action = compSwitch(actionComp, competenciesdata.action);
+    completionJSON.competencies.composure = compSwitch(composureComp, competenciesdata.composure);
+    completionJSON.competencies.conviction = compSwitch(convictionComp, competenciesdata.conviction);
+    completionJSON.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
+    completionJSON.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
+    completionJSON.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');

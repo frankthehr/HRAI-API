@@ -24,20 +24,19 @@ const openai = new OpenAIApi(configuration);
 // Defined bulletpoint unicode codepoint
 const bulletpoint = '\u2022';
 
+// Function to get required level of competency
 const compSwitch = (level, comp) => {
   switch (level) {
     case 1:
       return comp.one;
-      break;
     case 2:
       return comp.two;
-      break;
     case 3:
       return comp.three;
-      break;
     case 4:
       return comp.four;
-      break;
+    case 5:
+      return comp.five;
     default:
       return undefined;
   }

@@ -1,51 +1,152 @@
 {
   "action": {
     "description": "Pursues work with energy, drive, and a strong accomplishment orientation.",
-    "one": "Displays drive, energy and initiative. Sees what needs to be done and does it without being told. Does not 'over think' problems or tasks.",
-    "two": "Reacts with appropriate urgency to situations and events that require a quick response or turnaround. Has a bias for action, recognising the pitfalls of over planning in a fast-changing, unpredictable business. Has a good sense of timing for action, understanding that too late may mean never and too early may waste resources.",
-    "three": "Proactively identifies business opportunities and issues, and takes decisive action. Implements strategic opportunities, with the urgency needed to create momentum. Encourages and reinforces action taking and decisiveness in others. Is willing to make mistakes or have others make mistakes where a bias for action played a role.",
-    "four": "Independently seizes appropriate opportunities with high energy, initiative, and drive. Identifies and seizes strategic opportunities, acting quickly to create momentum. Strategically acts with the urgency needed to ensure the Organisation's competitive advantage, anticipating how current action may enhance or impede future actions. Sets the pace for a fast moving, action-oriented organisation."
+    "one": [
+      "Displays drive, energy and initiative.",
+      "Sees what needs to be done and does it without being told.",
+      "Does not 'over think' problems or tasks."
+    ],
+    "two": [
+      "Reacts with appropriate urgency to situations and events that require a quick response or turnaround.",
+      "Has a bias for action, recognising the pitfalls of over planning in a fast-changing, unpredictable business.",
+      "Has a good sense of timing for action, understanding that too late may mean never and too early may waste resources."
+    ],
+    "three": [
+      "Proactively identifies business opportunities and issues, and takes decisive action.",
+      "Implements strategic opportunities, with the urgency needed to create momentum.",
+      "Encourages and reinforces action taking and decisiveness in others.",
+      "Is willing to make mistakes or have others make mistakes where a bias for action played a role."
+    ],
+    "four": [
+      "Independently seizes appropriate opportunities with high energy, initiative, and drive.",
+      "Identifies and seizes strategic opportunities, acting quickly to create momentum.",
+      "Strategically acts with the urgency needed to ensure the Organisation's competitive advantage, anticipating how current action may enhance or impede future actions.",
+      "Sets the pace for a fast moving, action-oriented organisation."
+    ]
   },
   "composure": {
     "description": "Maintains a constructive and composed focus in facing and overcoming tough situations.",
-    "one": "Responds effectively in moderately stressful situations. Avoids counterproductive behaviour when confronted with frustrating problems or situations.",
-    "two": "Tolerates stress well, responding effectively when faced with bad news or situations. In disagreements or confrontations, focuses on the problem rather than attacking the person. Continues to work on the problem when others are bailing out or blaming. Brings others back to problem solving when things get emotional.",
-    "three": "Demonstrates emotional control and composure even under high stress. Manages frustration well by directing his/her efforts and those of others toward constructive solutions. Shows his/her frustration appropriately, without making others feel stupid or blamed.",
-    "four": "Remains focused, cool and professional under severely stressful circumstances. Does not overreact to bad news or situations. Is resilient and maintains the highest level of professionalism in highly stressful circumstances. Thinks clearly and makes quality decisions even in high pressure, adverse situations. Acts as a calming and settling influence in crisis situations and is looked to by others for direction and guidance."
+    "one": [
+      "Responds effectively in moderately stressful situations.",
+      "Avoids counterproductive behaviour when confronted with frustrating problems or situations."
+    ],
+    "two": [
+      "Tolerates stress well, responding effectively when faced with bad news or situations.", 
+      "In disagreements or confrontations, focuses on the problem rather than attacking the person.", 
+      "Continues to work on the problem when others are bailing out or blaming.", 
+      "Brings others back to problem solving when things get emotional."
+    ],
+    "three": [
+      "Demonstrates emotional control and composure even under high stress.", "Manages frustration well by directing his/her efforts and those of others toward constructive solutions.", 
+      "Shows his/her frustration appropriately, without making others feel stupid or blamed."
+    ],
+    "four": [
+      "Remains focused, cool and professional under severely stressful circumstances.", 
+      "Does not overreact to bad news or situations.", 
+      "Is resilient and maintains the highest level of professionalism in highly stressful circumstances.", 
+      "Thinks clearly and makes quality decisions even in high pressure, adverse situations.", 
+      "Acts as a calming and settling influence in crisis situations and is looked to by others for direction and guidance."
+    ]
   },
   "conviction": {
     "description": "Shows a strong sense of certainty and stands firm when appropriate.",
-    "one": "Lets others know where he/she stands on important issues. Thinks through his/her convictions and sticks with them. Understands he/she is not always right, but still takes a stand for his/her own beliefs.",
-    "two": "Takes a stand on what he/she believes are essential values or principles, rather than on everything. Takes a stand on what he/she believes are essential values or principles, rather than on everything.",
-    "three": "Strongly advocates and defends his/her own viewpoint and those of others to which he/she is committed. Takes action based on his/her convictions even when the stakes are high for self or others. Provides strength and leadership during tough times.",
-    "four": "Forcefully advocates and defends his/her beliefs and convictions, even when they are unpopular. Takes responsibility for extremely difficult decisions and actions even when the stakes are high and have far reaching implications. Is more interested in doing the right thing than in winning arguments or being popular. Provides strength and leadership during extremely difficult times. Takes charge and acts as a role model in demonstrating tenacity, courage, and strength in the face of adversity"
+    "one": [
+      "Lets others know where he/she stands on important issues.", 
+      "Thinks through his/her convictions and sticks with them.", 
+      "Understands he/she is not always right, but still takes a stand for his/her own beliefs."
+    ],
+    "two": [
+      "Takes a stand on what he/she believes are essential values or principles, rather than on everything", 
+      "Does not back down from his/her convictions under pressure."
+    ],
+    "three": [
+      "Strongly advocates and defends his/her own viewpoint and those of others to which he/she is committed.", 
+      "Takes action based on his/her convictions even when the stakes are high for self or others.", 
+      "Provides strength and leadership during tough times."
+    ],
+    "four": [
+      "Forcefully advocates and defends his/her beliefs and convictions, even when they are unpopular.", 
+      "Takes responsibility for extremely difficult decisions and actions even when the stakes are high and have far reaching implications.", 
+      "Is more interested in doing the right thing than in winning arguments or being popular.", 
+      "Provides strength and leadership during extremely difficult times.", 
+      "Takes charge and acts as a role model in demonstrating tenacity, courage, and strength in the face of adversity"
+    ]
   },
   "creativity": {
     "description": "Develops original ideas, approaches, and solutions to typical, unusual, or difficult situations or problems.",
-    "one": "Contributes new ideas and approaches to the way his/her work is done. Contributes effectively to brainstorming sessions in his/her work area. Pushes him/herself to think beyond the obvious.",
-    "two": "Frequently generates new ideas and approaches to the way his/her or others' work is done. Regularly contributes high quality thinking to the development of ideas. Challenges standard approaches and ideas to see if there is a better, more effective way.",
-    "three": "Entertains wide-ranging possibilities others may miss in order to generate new, innovative ideas. Regularly thinks outside the given parameters to see if there's a better, more effective way. Brings out the creativity in other people.",
-    "four": "Employs unique types of analysis, consistently generating new, innovative ideas in complex, multi-functional areas. Turns problems upside down and inside out to find fresh new approaches. Consistently integrates seemingly unrelated information and develops highly creative, strategic approaches. Continually pushes the status quo to test its limits, and challenges others to do so."
+    "one": [
+      "Contributes new ideas and approaches to the way his/her work is done.", 
+      "Contributes effectively to brainstorming sessions in his/her work area.", 
+      "Pushes him/herself to think beyond the obvious."
+    ],
+    "two": [
+      "Frequently generates new ideas and approaches to the way his/her or others' work is done.", 
+      "Regularly contributes high quality thinking to the development of ideas.", 
+      "Challenges standard approaches and ideas to see if there is a better, more effective way."
+    ],
+    "three": [
+      "Entertains wide-ranging possibilities others may miss in order to generate new, innovative ideas.", 
+      "Regularly thinks outside the given parameters to see if there's a better, more effective way.", 
+      "Brings out the creativity in other people."
+    ],
+    "four": [
+      "Employs unique types of analysis, consistently generating new, innovative ideas in complex, multi-functional areas.", 
+      "Turns problems upside down and inside out to find fresh new approaches.", 
+      "Consistently integrates seemingly unrelated information and develops highly creative, strategic approaches.", 
+      "Continually pushes the status quo to test its limits, and challenges others to do so."
+    ]
   },
   "ambiguity": {
     "description": "Works effectively in situations involving uncertainty or lack of information, and responds flexibly to change",
-    "one": "Performs ambiguous tasks with guidance and support. Adapts reasonably well to changing circumstances, direction, and strategy. Is able to suggest actions without having all the information.",
-    "two": "Effectively handles ambiguous, dynamic tasks and assignments. Demonstrates ability to change direction in response to changing work situations. Doesn't need things to be black and white. Is able to make decisions and take action when there is not enough information to predict the consequences with certainty. ",
-    "three": "Takes effective action without having to know the total picture or having all of the facts at hand. Readily and easily switches gears in response to unexpected events and circumstances. Refuses to be paralysed by uncertainty or ambiguity. Defines situations for self and others in ways that provide as much focus as possible in dynamic situations.",
+    "one": [
+      "Performs ambiguous tasks with guidance and support.", 
+      "Adapts reasonably well to changing circumstances, direction, and strategy.", 
+      "Is able to suggest actions without having all the information."
+    ],
+    "two": [
+      "Effectively handles ambiguous, dynamic tasks and assignments.", 
+      "Demonstrates ability to change direction in response to changing work situations.", 
+      "Doesn't need things to be black and white.", 
+      "Is able to make decisions and take action when there is not enough information to predict the consequences with certainty."
+    ],
+    "three": [
+      "Takes effective action without having to know the total picture or having all of the facts at hand.", 
+      "Readily and easily switches gears in response to unexpected events and circumstances.", 
+      "Refuses to be paralysed by uncertainty or ambiguity.", 
+      "Defines situations for self and others in ways that provide as much focus as possible in dynamic situations."
+    ],
     "four": ""
   },
   "integrity": {
     "description": "Behaves according to high ethical business principles and values",
-    "one": "Demonstrates personal integrity in dealings with others. Represents information accurately and presents him/herself truthfully. Treats sensitive and confidential information in an appropriate manner.",
-    "two": "Is widely recognised as a direct, truthful, and fair person. Is trustworthy and deals with others in an even-handed way. Maintains confidentiality of information even if placed under pressure from others to divulge what he/she knows.",
-    "three": "Adheres to a set of core values in good times and bad. Is always straightforward and impartial in dealing with others. Exercises good judgment about who to share information with when the level of confidentiality is unclear. Uses flawless discretion and judgment in discussing information about the Organisation with people outside the company. Insists on integrity at all levels of his/her organisation.",
-    "four": "Maintains the highest principles and values and behaves consistently with them, even when doing so could meet with disapproval. Is scrupulously fair in dealing with others and in creating organisational processes. Serves as a positive role model with respect to personal integrity."
+    "one": [
+      "Demonstrates personal integrity in dealings with others.", 
+      "Represents information accurately and presents him/herself truthfully.", 
+      "Treats sensitive and confidential information in an appropriate manner."
+    ],
+    "two": [
+      "Is widely recognised as a direct, truthful, and fair person.", 
+      "Is trustworthy and deals with others in an even-handed way.", 
+      "Maintains confidentiality of information even if placed under pressure from others to divulge what he/she knows."
+    ],
+    "three": [
+      "Adheres to a set of core values in good times and bad.", 
+      "Is always straightforward and impartial in dealing with others.", 
+      "Exercises good judgment about who to share information with when the level of confidentiality is unclear.", 
+      "Uses flawless discretion and judgment in discussing information about the Organisation with people outside the company.", 
+      "Insists on integrity at all levels of his/her organisation."
+    ],
+    "four": [
+      "Maintains the highest principles and values and behaves consistently with them, even when doing so could meet with disapproval.", 
+      "Is scrupulously fair in dealing with others and in creating organisational processes.", 
+      "Serves as a positive role model with respect to personal integrity."
+    ]
   },
   "template": {
     "description": "",
-    "one": "",
-    "two": "",
-    "three": "",
-    "four": ""
+    "one": [],
+    "two": [],
+    "three": [],
+    "four": []
   }
 }

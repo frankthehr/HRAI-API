@@ -63,7 +63,7 @@
     .details,
     .overview,
     .responsibility,
-    .competencies,
+    .competency,
     .profile,
     .qualification,
     .pdf-footer {
@@ -137,34 +137,34 @@
       padding: 1rem;
     }
 
-    .competencies {
+    .competency {
       display: flex;
       flex-direction: column;
       width: 100%;
       border: 1px solid black;
     }
 
-    .competencies header {
+    .competency header {
       display: grid;
       grid-template-columns: 2fr 5fr;
       width: 100%;
       background-color: rgb(200, 200, 200);
     }
 
-    .competencie-name {
+    .competency-name {
       border-right: 1px solid black;
     }
 
-    .competencie-name,
-    .competencie-description {
+    .competency-name,
+    .competency-description {
       padding: 0.25rem;
       padding-left: 0.5rem;
     }
 
-    .comp-confidence,
-    .comp-results,
-    .comp-communications,
-    .comp-problem {
+    .comp-action,
+    .comp-composure,
+    .comp-conviction,
+    .comp-creativity {
       display: grid;
       grid-template-columns: 2fr 5fr;
       width: 100%;
@@ -295,72 +295,80 @@
       </div>
     </div>
 
-    <div class="competencies">
+    <div class="competency">
       <header>
-        <div class="competencie-name">
-          <h3>Competencies Required</h3>
+        <div class="competency-name">
+          <h3>Competency Required</h3>
         </div>
 
-        <div class="competencie-description">
-          <h3>Description of Role / Responsibility</h3>
+        <div class="competency-description">
+          <h3>Description of competency</h3>
         </div>
       </header>
+      
+      {{#if competencies.action}}
+        <div class="comp-action">
+          <div class="competency-name">
+            <h4>Action Orientated</h4>
+          </div>
 
-      <div class="comp-confidence">
-        <div class="competencie-name">
-          <h4>Self Confidence</h4>
+          <div class="competency-description">
+            <ul>
+              {{#each competencies.action}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>   
+          </div>
         </div>
+      {{/if}}
 
-        <div class="competencie-description">
-          <ul>
-            {{#each requirements}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>  
-        </div>
-      </div>
+      {{#if competencies.composure}}
+        <div class="comp-composure">
+          <div class="competency-name">
+            <h4>Composure</h4>
+          </div>
 
-      <div class="comp-results">
-        <div class="competencie-name">
-          <h4>Results Driven</h4>
+          <div class="competency-description">
+            <ul>
+              {{#each competencies.composure}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>   
+          </div>
         </div>
+      {{/if}}
 
-        <div class="competencie-description">
-          <ul>
-            {{#each requirements}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>  
-        </div>
-      </div>
+      {{#if competencies.conviction}}
+        <div class="comp-conviction">
+          <div class="competency-name">
+            <h4>Conviction and Courage</h4>
+          </div>
 
-      <div class="comp-communications">
-        <div class="competencie-name">
-          <h4>Communications</h4>
+          <div class="competency-description">
+            <ul>
+              {{#each competencies.conviction}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>   
+          </div>
         </div>
+      {{/if}}
 
-        <div class="competencie-description">
-          <ul>
-            {{#each requirements}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>  
-        </div>
-      </div>
+      {{#if competencies.creativity}}
+        <div class="comp-creativity">
+          <div class="competency-name">
+            <h4>Creativity</h4>
+          </div>
 
-      <div class="comp-problem">
-        <div class="competencie-name">
-          <h4>Communications</h4>
+          <div class="competency-description">
+            <ul>
+              {{#each competencies.creativity}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul> 
+          </div>
         </div>
-
-        <div class="competencie-description">
-          <ul>
-            {{#each requirements}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>  
-        </div>
-      </div>
+      {{/if}}
     </div>
 
     <div class="profile">
@@ -459,8 +467,6 @@
     <br />
 
     <span>{{ competencies.integrity }}</span>
-
-    <br />
 
     <footer class="pdf-footer">
       <p>This description has been designed to indicate the general nature of and the criteria required to perform this function. It will be subject to regular review with the post holder and your Manager.</p>

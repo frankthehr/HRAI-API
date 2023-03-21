@@ -142,11 +142,56 @@
       "Serves as a positive role model with respect to personal integrity."
     ]
   },
+  "intellectual": {
+    "description": "Is bright, intellectually sharp, and learns quickly.",
+    "one": ["Structures basic information accurately and draws informed conclusions.",
+    "With guidance, learns quickly on the job.",
+    "Picks up new skills and understands ideas when presented in a structured format.",
+    "Learns effectively from experience."],
+    "two": ["Analyses and organises complex information from a specific content area, identifying key issues, assessing impact, and drawing reasonable conclusions.", "Learns new skills and ideas rapidly.", "Quickly adjusts his/her thinking to assimilate new information or ideas ", "Is able to apply and explain logic related to problems or opportunities."],
+    "three": ["Analyses, explains, and draws logical conclusions based on complex data from multiple content areas.", "Rapidly learns and assimilates complex information involving unfamiliar situations and circumstances.", "Quickly perceives implications and makes sound judgments and recommendations.", "Teaches and guides others to think more clearly and critically."],
+    "four": ["Rapidly identifies the significance of information and insightfully determines strategic action.", "Rapidly learns new concepts and ideas, and integrates and assimilates highly complex information across broad, multi-functional content areas.", "Has a razor sharp intellect that cuts through non-essential, illogical, over generalised, or unsubstantiated thinking."]
+  },
+  "confidence": {
+    "description": "Feels successful in past undertakings and expects to succeed in future activities.",
+    "one": ["Is generally confident about his/her ability to contribute effectively.", "Feels his/her opinions are valuable and should be heard.", "Takes responsibility for his/her actions, and doesn't get defensive when given constructive criticism."],
+    "two": ["Demonstrates confidence in his/her abilities and thinking.", "Has sufficient self-assurance to deal with, rather than avoid, tough problems or situations.", "Maintains self-confidence and presses on even when things are not going well or others are being critical."],
+    "three": ["Demonstrates a high level of confidence in his/her ability to handle difficult and varied situations.", "Handles tough problems and situations with little hesitation or doubt.", "Gladly shares credit for good work with others."],
+    "four": ["Exudes confidence and instils confidence in others.", "Tackles the toughest problems head-on with no sign of hesitation or doubt.", "Enjoys taking the lead in complex, difficult, or politically charged situations, and does so with a high degree of effectiveness."]
+  },
   "template": {
     "description": "",
-    "one": [],
-    "two": [],
-    "three": [],
-    "four": []
+    "one": ["", "", ""],
+    "two": ["", "", ""],
+    "three": ["", "", ""],
+    "four": ["", "", ""]
+  },
+  "template": {
+    "description": "",
+    "one": ["", "", ""],
+    "two": ["", "", ""],
+    "three": ["", "", ""],
+    "four": ["", "", ""]
+  },
+  "template": {
+    "description": "",
+    "one": ["", "", ""],
+    "two": ["", "", ""],
+    "three": ["", "", ""],
+    "four": ["", "", ""]
+  },
+  "template": {
+    "description": "",
+    "one": ["", "", ""],
+    "two": ["", "", ""],
+    "three": ["", "", ""],
+    "four": ["", "", ""]
+  },
+  "template": {
+    "description": "",
+    "one": ["", "", ""],
+    "two": ["", "", ""],
+    "three": ["", "", ""],
+    "four": ["", "", ""]
   }
 }

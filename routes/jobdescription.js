@@ -8,7 +8,9 @@ import { format } from 'date-fns';
 import { Configuration, OpenAIApi } from "openai";
 import data from '../data/testdata.json' assert { type: "json" };
 import jobdata from '../data/jobdata.json' assert { type: "json" };
+import studydata from '../data/studydata.json' assert { type: "json" };
 import portaldata from '../data/portaldata.json' assert { type: "json" };
+import educationdata from '../data/educationdata.json' assert { type: "json"};
 import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
 
 dotenv.config();
@@ -40,6 +42,44 @@ const compSwitch = (level, comp) => {
     default:
       return undefined;
   }
+}
+
+// Function to get required education
+const educationSwitch = (level, edu) => {
+  switch (level) {
+    case 1:
+      return edu.one;
+    case 2:
+      return edu.two;
+    case 3:
+      return edu.three;
+    case 4:
+      return edu.four;
+    default:
+      return undefined;
+  }
+}
+
+// Function to get required field of study
+const studySwitch = (level, studies) => {
+  switch (level) {
+    case 1:
+      return studies.one;
+    case 2:
+      return studies.two;
+    case 3:
+      return studies.three;
+    case 4:
+      return studies.four;
+    default:
+      return undefined;
+  }
+}
+
+// Create Prompt
+const createPrompt = (title, location, years, email) => {
+  let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array of strings with at least 8 requirements.`;
+  return prompt;
 }
 
 // Removes all characters before the first '{' and then returns the string
@@ -79,22 +119,21 @@ const getDescription = async function(req, res, next) {
     // Get prompt variables from request
     let title = req.body.title;
     let years = req.body.years;
-    let location = req.body.location;
     let email = req.body.email;
+    let location = req.body.location;
+    let study = Number(req.body.study);
+    let education = Number(req.body.education);
     let actionComp = Number(req.body.actionComp);
     let composureComp = Number(req.body.composureComp);
     let convictionComp = Number(req.body.convictionComp);
     let creativityComp = Number(req.body.creativityComp);
     let ambiguityComp = Number(req.body.ambiguityComp);
     let integrityComp = Number(req.body.integrityComp);
+    let intellectualComp = Number(req.body.intellectualComp);
+    let confidenceComp = Number(req.body.confidenceComp);
 
     // Create prompt with request variables
-    let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array of strings with at least 8 requirements.`;
-
-    // Throw error if prompt is null
-    if (prompt === null) {
-      throw new Error("Uh oh, no prompt was provided");
-    }
+    const prompt = createPrompt(title, location, years, email);
 
     // Call OpenAi Completion API
     const response = await openai.createCompletion({
@@ -123,6 +162,15 @@ const getDescription = async function(req, res, next) {
 
     console.log(completionJSON);
 
+    // Adding request data to JSON object
+    completionJSON.request = {};
+    completionJSON.request.title = title;
+    completionJSON.request.years = years;
+    completionJSON.request.email = email;
+    completionJSON.request.location = location;
+    completionJSON.request.education = educationSwitch(education, educationdata);
+    completionJSON.request.study = studySwitch(study, studydata);
+
     // Adding portal data to JSON object
     completionJSON.company = {};
     completionJSON.employee = {};
@@ -133,12 +181,15 @@ const getDescription = async function(req, res, next) {
 
     // Add compentencies data to JSON
     completionJSON.competencies = {};
+    if (actionComp || composureComp || convictionComp || creativityComp || ambiguityComp || integrityComp || intellectualComp || confidenceComp) completionJSON.competencies.show = true;
     completionJSON.competencies.action = compSwitch(actionComp, competenciesdata.action);
     completionJSON.competencies.composure = compSwitch(composureComp, competenciesdata.composure);
     completionJSON.competencies.conviction = compSwitch(convictionComp, competenciesdata.conviction);
     completionJSON.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
     completionJSON.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
     completionJSON.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
+    completionJSON.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.integrity);
+    completionJSON.competencies.confidence = compSwitch(confidenceComp, competenciesdata.integrity);
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');

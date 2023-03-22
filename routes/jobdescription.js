@@ -6,12 +6,12 @@ import express  from 'express';
 import puppeteer from 'puppeteer';
 import { format } from 'date-fns';
 import { Configuration, OpenAIApi } from "openai";
-import data from '../data/testdata.json' assert { type: "json" };
-import jobdata from '../data/jobdata.json' assert { type: "json" };
 import studydata from '../data/studydata.json' assert { type: "json" };
 import portaldata from '../data/portaldata.json' assert { type: "json" };
 import educationdata from '../data/educationdata.json' assert { type: "json"};
 import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
+import { compSwitch, educationSwitch, studySwitch } from '../methods/switch.js';
+import { createPrompt, removeLeading, removeTrailing, prependBulletpoint } from '../methods/format.js';
 
 dotenv.config();
 
@@ -23,89 +23,6 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-// Defined bulletpoint unicode codepoint
-const bulletpoint = '\u2022';
-
-// Function to get required level of competency
-const compSwitch = (level, comp) => {
-  switch (level) {
-    case 1:
-      return comp.one;
-    case 2:
-      return comp.two;
-    case 3:
-      return comp.three;
-    case 4:
-      return comp.four;
-    case 5:
-      return comp.five;
-    default:
-      return undefined;
-  }
-}
-
-// Function to get required education
-const educationSwitch = (level, edu) => {
-  switch (level) {
-    case 1:
-      return edu.one;
-    case 2:
-      return edu.two;
-    case 3:
-      return edu.three;
-    case 4:
-      return edu.four;
-    default:
-      return undefined;
-  }
-}
-
-// Function to get required field of study
-const studySwitch = (level, studies) => {
-  switch (level) {
-    case 1:
-      return studies.one;
-    case 2:
-      return studies.two;
-    case 3:
-      return studies.three;
-    case 4:
-      return studies.four;
-    default:
-      return undefined;
-  }
-}
-
-// Create Prompt
-const createPrompt = (title, location, years, email) => {
-  let prompt = `Write a 500 word job description for a ${title} in ${location} with ${years} years of experience and add employer's contact details as ${email}. Return it in JSON format with the following with the following headings as keys: "job_title", "location", "job_overview", "requirements", "years_of_experience", "contact_details". Make the overview very long. Return the requirements as an array of strings with at least 8 requirements.`;
-  return prompt;
-}
-
-// Removes all characters before the first '{' and then returns the string
-const removeLeading = (string) => {
-  while (string.length > 0 && string[0] !== '{') {
-    string = string.substring(1);
-  }
-  return string;
-}
-
-// Removes all characters after the last '}' and then returns the string
-const removeTrailing = (string) => {
-  let len = string.length;
-  while (len > 0 && string[len - 1] !== '}') {
-    string = string.substring(0, len - 1);
-    len = string.length;
-  }
-  return string;
-}
-
-// Prepends string with bulletpoint character
-const prependBulletpoint = (string) => {
-  const formattedString = `${bulletpoint} ${string}`
-  return formattedString;
-}
-
 // Compiles passed data into passed template
 const compilePDf = async function(templateType, data) {
   const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
@@ -113,8 +30,84 @@ const compilePDf = async function(templateType, data) {
   return hbs.compile(html)(data);
 }
 
-const getDescription = async function(req, res, next) {
+const callAPI = async function(req, res, next) {
   try {
+
+    // Get prompt variables from request
+    let title = req.body.title;
+    let years = req.body.years;
+    let email = req.body.email;
+    let location = req.body.location;
+
+    // Create prompt with request variables
+    const prompt = createPrompt(title, location, years, email);
+
+    // Call OpenAi Completion API
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt,
+      max_tokens: 700,
+      temperature: 1
+    });
+
+    // Assign completion from response to variable
+    const completion = response.data.choices[0].text;
+
+    // Store completion and prompt in request
+    req.prompt = prompt;
+    req.completion = completion;
+
+    next();
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+}
+
+const jsonifyCompletion = async function(req, res, next) {
+  try {
+
+    // Get completion
+    const completion = req.completion;
+
+    // Remove all newline characters from completion
+    const completionCleaned = completion.replace(/[\n\r]/g, '');
+
+    // Remove all characters before the JSON object
+    const parsedLeadingCompletion = removeLeading(completionCleaned);
+
+    // Remove all characters after the JSON object
+    const parsedCompletion = removeTrailing(parsedLeadingCompletion);
+
+    console.log(parsedCompletion);
+
+    // Convert completion from string representation of JSON to actual JSON
+    const completionJSON = JSON.parse(parsedCompletion);
+
+    // Store completion JSON in request
+    req.completionJSON = completionJSON;
+
+    next();
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+}
+
+const populateJSON = async function(req, res, next) {
+  try {
+
+    // const json = req.completionJSON;
+    const completionJSON = req.completionJSON;
+
+    const json = {};
+    json.completion = {};
+    json.completion.job_title = completionJSON.job_title;
+    json.completion.location = completionJSON.location;
+    json.completion.job_overview = completionJSON.job_overview;
+    json.completion.requirements = completionJSON.requirements;
+    json.completion.years_of_experience = completionJSON.years_of_experience;
+    json.completion.contact_details = completionJSON.contact_details;
 
     // Get prompt variables from request
     let title = req.body.title;
@@ -132,78 +125,43 @@ const getDescription = async function(req, res, next) {
     let intellectualComp = Number(req.body.intellectualComp);
     let confidenceComp = Number(req.body.confidenceComp);
 
-    // Create prompt with request variables
-    const prompt = createPrompt(title, location, years, email);
-
-    // Call OpenAi Completion API
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt,
-      max_tokens: 700,
-      temperature: 1
-    });
-
-    // Assign completion from response to variable
-    const completion = response.data.choices[0].text;
-
-    // Remove all newline characters from completion
-    const completionCleaned = completion.replace(/[\n\r]/g, '');
-
-    // Remove all characters before the JSON object
-    const parsedLeadingCompletion = removeLeading(completionCleaned);
-
-    // Remove all characters after the JSON object
-    const parsedCompletion = removeTrailing(parsedLeadingCompletion);
-
-    console.log(parsedCompletion);
-
-    // Convert completion from string representation of JSON to actual JSON
-    const completionJSON = JSON.parse(parsedCompletion);
-
-    console.log(completionJSON);
-
     // Adding request data to JSON object
-    completionJSON.request = {};
-    completionJSON.request.title = title;
-    completionJSON.request.years = years;
-    completionJSON.request.email = email;
-    completionJSON.request.location = location;
-    completionJSON.request.education = educationSwitch(education, educationdata);
-    completionJSON.request.study = studySwitch(study, studydata);
+    json.request = {};
+    json.request.title = title;
+    json.request.years = years;
+    json.request.email = email;
+    json.request.location = location;
+    json.request.education = educationSwitch(education, educationdata);
+    json.request.study = studySwitch(study, studydata);
 
     // Adding portal data to JSON object
-    completionJSON.company = {};
-    completionJSON.employee = {};
-    completionJSON.company.name = portaldata.company.name;
-    completionJSON.company.trading = portaldata.company.trading;
-    completionJSON.employee.first_name = portaldata.employee.first_name;
-    completionJSON.employee.last_name = portaldata.employee.last_name;
+    json.company = {};
+    json.employee = {};
+    json.company.name = portaldata.company.name;
+    json.company.trading = portaldata.company.trading;
+    json.employee.first_name = portaldata.employee.first_name;
+    json.employee.last_name = portaldata.employee.last_name;
 
     // Add compentencies data to JSON
-    completionJSON.competencies = {};
-    if (actionComp || composureComp || convictionComp || creativityComp || ambiguityComp || integrityComp || intellectualComp || confidenceComp) completionJSON.competencies.show = true;
-    completionJSON.competencies.action = compSwitch(actionComp, competenciesdata.action);
-    completionJSON.competencies.composure = compSwitch(composureComp, competenciesdata.composure);
-    completionJSON.competencies.conviction = compSwitch(convictionComp, competenciesdata.conviction);
-    completionJSON.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
-    completionJSON.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
-    completionJSON.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
-    completionJSON.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.integrity);
-    completionJSON.competencies.confidence = compSwitch(confidenceComp, competenciesdata.integrity);
+    json.competencies = {};
+    if (actionComp || composureComp || convictionComp || creativityComp || ambiguityComp || integrityComp || intellectualComp || confidenceComp) json.competencies.show = true;
+    json.competencies.action = compSwitch(actionComp, competenciesdata.action);
+    json.competencies.composure = compSwitch(composureComp, competenciesdata.composure);
+    json.competencies.conviction = compSwitch(convictionComp, competenciesdata.conviction);
+    json.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
+    json.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
+    json.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
+    json.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.integrity);
+    json.competencies.confidence = compSwitch(confidenceComp, competenciesdata.integrity);
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');
 
     // Add date object to JSON
-    completionJSON.date = formattedDate;
+    json.date = formattedDate;
 
-    // Prepend bulletpoints to requirements
-    completionJSON.requirements = completionJSON.requirements.map(prependBulletpoint);
-
-    // Store variables in request
-    req.prompt = prompt;
-    req.completion = completion;
-    req.completionJSON = completionJSON;
+    // Store JSON in request
+    req.json = json;
 
     next();
   } catch (error) {
@@ -216,7 +174,7 @@ const createPDF = async function(req, res, next) {
   try {
 
     // Get JSON object
-    const jsondata = req.completionJSON;
+    const jsondata = req.json;
 
     // Create puppeteer and page instances
     const browser = await puppeteer.launch();
@@ -250,7 +208,7 @@ const createPDF = async function(req, res, next) {
 
 router
   .route('/')
-  .post([getDescription, createPDF], function(req, res) {
+  .post([callAPI, jsonifyCompletion, populateJSON, createPDF], function(req, res) {
     console.log('Job Description Generated');
 
     // Store PDF as variable

@@ -59,6 +59,12 @@
       font-family: sans-serif;
     }
 
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
     .title,
     .details,
     .overview,
@@ -257,7 +263,7 @@
     <div class="details">
       <div>
         <h5>Job Title:</h5>
-        <span>{{ job_title }}</span>
+        <span>{{ request.title }}</span>
       </div>
 
       <div>
@@ -267,7 +273,7 @@
 
       <div>
         <h5>Location:</h5>
-        <span>{{ location }}</span>
+        <span>{{ completion.location }}</span>
       </div>
 
       <div>
@@ -281,7 +287,7 @@
         <h3>Job Overview</h3>
       </header>
     
-      <p>{{ job_overview }}</p>
+      <p>{{ completion.job_overview }}</p>
     </div>
 
 
@@ -292,8 +298,8 @@
 
       <div>
         <ul>
-          {{#each requirements}}
-            <li>{{this}}</li>
+          {{#each completion.requirements}}
+            <li>&#x2022; {{this}}</li>
           {{/each}}
         </ul>   
       </div>

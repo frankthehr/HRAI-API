@@ -115,7 +115,10 @@
       "Refuses to be paralysed by uncertainty or ambiguity.", 
       "Defines situations for self and others in ways that provide as much focus as possible in dynamic situations."
     ],
-    "four": ""
+    "four": [
+      "Refuses to be paralysed by uncertainty or ambiguity.", 
+      "Defines situations for self and others in ways that provide as much focus as possible in dynamic situations."
+    ]
   },
   "integrity": {
     "description": "Behaves according to high ethical business principles and values",
@@ -159,33 +162,68 @@
     "three": ["Demonstrates a high level of confidence in his/her ability to handle difficult and varied situations.", "Handles tough problems and situations with little hesitation or doubt.", "Gladly shares credit for good work with others."],
     "four": ["Exudes confidence and instils confidence in others.", "Tackles the toughest problems head-on with no sign of hesitation or doubt.", "Enjoys taking the lead in complex, difficult, or politically charged situations, and does so with a high degree of effectiveness."]
   },
-  "template": {
-    "description": "",
-    "one": ["", "", ""],
-    "two": ["", "", ""],
-    "three": ["", "", ""],
-    "four": ["", "", ""]
+  "development": {
+    "description": "Actively seeks to understand his/her own strengths and weaknesses, and works continuously to improve.",
+    "one": ["Responds constructively to feedback about individual strengths and weaknesses that are important for career development.", "With encouragement, takes on assignments that provide opportunities for self-development."],
+    "two": ["Actively seeks out feedback from different sources (e.g., manager, peers, direct reports, customers) about individual strengths and weaknesses.", "Willingly takes on assignments that develop career enhancing skills and abilities.", "Invests time and effort to learn and build knowledge and skills."],
+    "three": ["Finds ways to take full advantage of personal strengths and compensate for weaknesses.", "Searches for and participates in tough assignments and jobs that help develop strengths and weaker areas.", "Welcomes learning and growth experiences, and turns hardships or failures into 'lessons learned'"],
+    "four": ["Shows clear, in-depth understanding of his/her strengths and weaknesses and uses this to maximum advantage.", "Is constantly alert to feedback and opportunities to enhance skills.", "Does whatever is necessary to keep knowledge and skills current in a rapidly changing environment."]
   },
-  "template": {
-    "description": "",
-    "one": ["", "", ""],
-    "two": ["", "", ""],
-    "three": ["", "", ""],
-    "four": ["", "", ""]
+  "decision": {
+    "description": "Makes timely, practical, and cost-effective decisions, and facilitates others in doing so.",
+    "one": ["Makes good, timely decisions in situations that are fairly well defined or limited in scope.", "Effectively selects the best option from a limited number of possible actions or standard options.", "Makes decisions within his/her authority, such as those that affect his/her work."],
+    "two": ["Makes good, timely, decisions in relatively complex situations.", "Asks questions and collects information to gain an accurate understanding of possible alternatives before making a decision.", "Makes decisions that impact people within his/her group or in other related groups."],
+    "three": ["Makes insightful, timely decisions in difficult, complex situations.", "Uses a mixture of analysis, 'business smarts', experience, and judgment to make high-level decisions.", "Clearly communicates scope of decision making authority to staff and empowers them to act within it. ", "Makes decisions that significantly impact other groups. "],
+    "four": ["Makes insightful, timely decisions in difficult, highly complex situations.", "Quickly and efficiently sorts through data to identify key issues or variables to consider in making critically important, strategic decisions.", "Anticipates and thinks through the scope and depth of impact a decision will have on key external constituencies and people at all levels in the company."]
   },
-  "template": {
-    "description": "",
-    "one": ["", "", ""],
-    "two": ["", "", ""],
-    "three": ["", "", ""],
-    "four": ["", "", ""]
+  "results": {
+    "description": "Continually focuses on achieving positive, concrete results contributing to the business success.",
+    "one": ["Works proactively with manager and others to clarify and understand results on which he/she needs to focus.", "Once goals and results needed are sufficiently clear, stays on a focused, efficient path for achieving results.", "Accepts difficult goals or assignments and gets right to work."],
+    "two": ["Defines all assignments and work problems in terms of results to be achieved.", "Works constantly to find the most effective way to achieve intended results.", "Works efficiently and diligently on the task at hand, putting in whatever time and effort is needed to do an excellent job."],
+    "three": ["Guides others to define all assignments and work problems in terms of results to be achieved.", "Reinforces successful achievement of tangible, intended results.", "Sets high standards for results, and once achieved, raises the standards even higher."],
+    "four": ["Anticipates subtle or unusual obstacles or problems and takes timely steps to minimize their impact on intended results.", "Never completely satisfied, always looking for ways to improve the long-term results of the company.", "Effectively overcomes strong resistance and difficult obstacles in meeting goals. "]
   },
-  "template": {
-    "description": "",
-    "one": ["", "", ""],
-    "two": ["", "", ""],
-    "three": ["", "", ""],
-    "four": ["", "", ""]
+  "systems": {
+    "description": "Effectively uses systems and processes to measure, monitor, manage, or impact performance.",
+    "one": ["Oversees straightforward systems and processes, ensuring outputs meet expectations and work is well coordinated.", "Competently monitors relatively simple results and metrics, and makes adjustments to improve functioning."],
+    "two": ["Systematically and thoroughly monitors moderately complex systems and processes. ", "Identifies and tracks key metrics of system or process effectiveness and efficiency. ", "Uses data to revise procedures and optimise system functioning. "],
+    "three": ["Designs and manages complex systems and processes effectively.", "Has a keen sense for what metrics will provide the most useful data for monitoring systems, and uses these metrics to improve system efficiency and effectiveness.", "Has a keen sense for what metrics will provide the most useful data for monitoring systems, and uses these metrics to improve system efficiency and effectiveness."],
+    "four": ["Expertly designs, manages, controls, refines, and simplifies the most complex systems and processes, involving major functions or business units.", "Anticipates and considers issues of scaleability and interaction when evaluating existing systems or developing new ones.", "Demonstrates high levels of commitment to ongoing improvement, achieving success through empowerment of others and management by data."]
+  },
+  "performance": {
+    "description": "Sets clear goals for self or others; assigns responsibility; measures performance; and seeks and delivers feedback to achieve quality, timely results.",
+    "one": ["Develops measurable goals and objectives with specific guidance and approval from manager.", "Keeps his/her manager well-informed of progress and problems.", "Works independently, but seeks out feedback and coaching as needed.", "Accepts and acts on feedback and coaching from manager and others."],
+    "two": ["Develops measurable goals and objectives with general guidance from manager.", "Manages dependencies by coordinating own goals/activities with those of peers.", "Monitors own progress and uses feedback to make appropriate adjustments. ", "Communicates feedback to peers in positive, timely, constructive ways. "],
+    "three": ["Develops measurable goals and objectives with minimal guidance.", "Manages dependencies by coordinating group goals/activities with those of other groups.", "Ensures direct reports have clear goals and objectives. ", "Holds regular 1:1s with direct reports."],
+    "four": ["Ensures goals and objectives are aligned with the overall strategy for his/her organisation.", "Sets clear priorities and direction for his/her organisation.", "Designs and implements planning and monitoring systems that channel his/her organisation's efforts toward intended results."]
+  },
+  "coordinating": {
+    "description": "Efficiently develops and implements plans to accomplish goals.",
+    "one": ["Effectively prioritises own work such that she/he is prepared and able to meet work objectives.", "Efficiently uses his/her time.", "Organizes resources to complete his/her projects efficiently and on time.", "Effectively participates in routine planning activities related to his/her work. "],
+    "two": ["Manages own time and that of others efficiently, focusing on the things that are important.", "Demonstrates preparedness by developing sound plans and determining the length and complexity of tasks, processes, and projects.", "Effectively implements and monitors moderately complex plans/schedules, such that tasks/projects are consistently completed on time and in accordance with objectives.", "Keeps appropriate people well informed of plans, progress, and decisions."],
+    "three": ["Provides high-level value in helping groups plan, organize, and coordinate their work effectively.", "Develops efficient work plans for complex projects involving many groups, and effectively implements and coordinates these plans.", "Demonstrates a keen understanding of the relationships among various components of large-scale programs that cut across groups, organising them such that limited resources are used most effectively."],
+    "four": ["Assigns priorities to multiple competing and important activities quickly and effectively.", "Expertly devises and drives the most complex or difficult plans involving multiple organisations and having a significant impact on the company’s business.", "Demonstrates a keen understanding of the relationships between different organisations.", "Takes timely, strategic actions in designing and leading groups and organisations to facilitate their working together effectively."]
+  },
+  "solving": {
+    "description": "Analyses information and uses it to develop effective solutions to difficult problems or situations.",
+    "one": ["Solves routine problems effectively, gathering the information necessary to weigh a limited set of options and arrive at sound conclusions.", "Escalates problems that are beyond his/her scope for resolution."],
+    "two": ["Efficiently and creatively solves moderately difficult or complex problems that affect people within his/her group or other related groups.", "Looks beyond obvious solutions, and experiments with different approaches to solving problems.", "Develops solutions for problems beyond his/her scope, and escalates for confirmation of this solution, or other options, before acting."],
+    "three": ["Efficiently and creatively solves difficult, complex problems that affect other groups.", "Accurately defines the amount and kind of information that must be gathered for problem solving.", "Identifies underlying or hidden problems or trends across groups.", "Anticipates, and proactively works to circumvent, roadblocks to solutions."],
+    "four": ["Efficiently and creatively solves even the most complex and difficult problems that affect his/her organisation or the entire company.", "Asks critical, insightful questions, and probes all fruitful sources for information that facilitates problem solving.", "Strategically analyses the risks, benefits and opportunities of various solutions."]
+  },
+  "customer": {
+    "description": "Investigates and takes action to meet customers' current and future needs.",
+    "one": ["Demonstrates concern for how customers will use his/her products or services. ", "Works effectively with customers 1:1 or in small groups in clarifying and responding to their needs. ", "Demonstrates a strong customer service orientation, and takes responsibility to follow up with customers to ensure their needs and expectations are satisfied. ", "Collaborates with others in his/her team to ensure the customer gets a flawless product or service. "],
+    "two": ["Understands customers, proactively gathering information to learn about their needs and expectations.", "Builds ongoing relationships with customers.", "Sets customer expectations appropriately.", "Collaborates with other teams to ensure the customer gets a flawless product or service. "],
+    "three": ["Adapts products and services to customer feedback.", "Designs and monitors interfaces between his/her group and customers to ensure customer satisfaction.", "Is alert and appropriately responsive to any data indicating a customer opportunity or change in customer needs."],
+    "four": ["Designs his/her organisation for optimal customer focus and service. ", "Is outstanding in developing strategic, ongoing customer relationships, gaining trust and respect for the company. ", "Develops long-term product or service plans and strategies that anticipate and channel customer needs and expectations. "]
+  },
+  "representing": {
+    "description": "Projects a positive and professional image of the Organisation in all contacts.",
+    "one": ["Creates a positive impression of the Organisation when interacting with people outside the company.", "Behaves professionally and uses good judgment in all interactions in which he/she is likely to be viewed as a representative of the Organisation (e.g., travel, community service).", "Speaks positively and enthusiastically about the Organisation in conversations or meetings with people inside and outside the company."],
+    "two": ["Represents the Organisation well in moderately complex or difficult interactions with people outside the company.", "Successfully influences others toward the Organisation viewpoints.", "Demonstrates commitment to the Organisation through words and actions in all interactions with people outside the company."],
+    "three": ["Effectively develops and manages important professional relationships and complex interactions with high-level persons outside the company.", "Successfully promotes the Organisation's interests, influencing the decisions of people outside the company.", "Sets an example of excellence as an Organisation representative, enhancing the company's image and reputation through his/her credibility, preparation, and commitment."],
+    "four": ["Is extraordinarily polished in handling very complex and difficult interactions with the highest level government officials, customers, media, and people influential in the industry.", "Persuasively and effectively promotes the Organisation and its products to a wide and diverse audience, regularly winning skeptics over to the Organisation’s point of view.", "Handles professionally even the most difficult or sensitive situations with external parties, turning negative or adversarial situations into positive results for the Organisation."]
   },
   "template": {
     "description": "",

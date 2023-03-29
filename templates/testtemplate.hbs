@@ -174,7 +174,8 @@
     .comp-ambiguity,
     .comp-integrity,
     .comp-confidence,
-    .comp-intellectual {
+    .comp-intellectual,
+    .comp-solving {
       display: grid;
       grid-template-columns: 2fr 5fr;
       width: 100%;
@@ -438,6 +439,28 @@
           <div class="competency-description">
             <ul>
               {{#each competencies.confidence}}
+                <li>&#x2022; {{this}}</li>
+              {{/each}}
+            </ul> 
+          </div>
+        </div>
+      {{/if}}
+
+
+
+
+
+      {{!-- Add here --}}
+
+      {{#if competencies.solving}}
+        <div class="comp-solving">
+          <div class="competency-name">
+            <h4>Problem Solving</h4>
+          </div>
+
+          <div class="competency-description">
+            <ul>
+              {{#each competencies.solving}}
                 <li>&#x2022; {{this}}</li>
               {{/each}}
             </ul> 

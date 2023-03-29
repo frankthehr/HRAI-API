@@ -124,6 +124,15 @@ const populateJSON = async function(req, res, next) {
     let integrityComp = Number(req.body.integrityComp);
     let intellectualComp = Number(req.body.intellectualComp);
     let confidenceComp = Number(req.body.confidenceComp);
+    let developmentComp = Number(req.body.developmentComp);
+    let decisionComp = Number(req.body.decisionComp);
+    let resultsComp = Number(req.body.resultsComp);
+    let systemsComp = Number(req.body.systemsComp);
+    let performanceComp = Number(req.body.performanceComp);
+    let coordinatingComp = Number(req.body.coordinatingComp);
+    let solvingComp = Number(req.body.solvingComp);
+    let customerComp = Number(req.body.customerComp);
+    let representingComp = Number(req.body.representingComp);
 
     // Adding request data to JSON object
     json.request = {};
@@ -151,8 +160,18 @@ const populateJSON = async function(req, res, next) {
     json.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
     json.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
     json.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
-    json.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.integrity);
-    json.competencies.confidence = compSwitch(confidenceComp, competenciesdata.integrity);
+    json.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.intellectual);
+    json.competencies.confidence = compSwitch(confidenceComp, competenciesdata.confidence);
+    json.competencies.development = compSwitch(developmentComp, competenciesdata.development);
+    json.competencies.decision = compSwitch(decisionComp, competenciesdata.decision);
+    json.competencies.results = compSwitch(resultsComp, competenciesdata.results);
+    json.competencies.systems = compSwitch(systemsComp, competenciesdata.systems);
+    json.competencies.performanceComp = compSwitch(performanceComp, competenciesdata.performance);
+    json.competencies.coordinating = compSwitch(coordinatingComp, competenciesdata.coordinating);
+    json.competencies.solving = compSwitch(solvingComp, competenciesdata.solving);
+    json.competencies.customer = compSwitch(customerComp, competenciesdata.customer);
+    json.competencies.representing = compSwitch(representingComp, competenciesdata.representing);
+
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');

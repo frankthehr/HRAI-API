@@ -470,6 +470,24 @@
     </div>
     {{/if}}
 
+    {{#each competencies}}
+      {{#if this}}
+        <div class="comp-solving">
+          <div class="competency-name">
+            <h4>Problem Solving</h4>
+          </div>
+
+          <div class="competency-description">
+            <ul>
+              {{#each this}}
+                <li>&#x2022; {{this}}</li>
+              {{/each}}
+            </ul> 
+          </div>
+        </div>
+      {{/if}}
+    {{/each}}
+
     <div class="profile">
       <header>
         <h3>Candidate Profile</h3>

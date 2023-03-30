@@ -12,6 +12,7 @@ import educationdata from '../data/educationdata.json' assert { type: "json"};
 import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
 import { compSwitch, educationSwitch, studySwitch } from '../methods/switch.js';
 import { createPrompt, removeLeading, removeTrailing, prependBulletpoint } from '../methods/format.js';
+import { hasTruthyValue } from '../methods/utilities.js';
 
 dotenv.config();
 
@@ -77,9 +78,11 @@ const jsonifyCompletion = async function(req, res, next) {
     const parsedLeadingCompletion = removeLeading(completionCleaned);
 
     // Remove all characters after the JSON object
-    const parsedCompletion = removeTrailing(parsedLeadingCompletion);
+    let parsedCompletion = removeTrailing(parsedLeadingCompletion);
 
     console.log(parsedCompletion);
+
+    parsedCompletion = parsedCompletion.replace(/(\w+)\s*:/g, '"$1":');
 
     // Convert completion from string representation of JSON to actual JSON
     const completionJSON = JSON.parse(parsedCompletion);
@@ -152,26 +155,38 @@ const populateJSON = async function(req, res, next) {
     json.employee.last_name = portaldata.employee.last_name;
 
     // Add compentencies data to JSON
-    json.competencies = {};
-    if (actionComp || composureComp || convictionComp || creativityComp || ambiguityComp || integrityComp || intellectualComp || confidenceComp) json.competencies.show = true;
-    json.competencies.action = compSwitch(actionComp, competenciesdata.action);
-    json.competencies.composure = compSwitch(composureComp, competenciesdata.composure);
-    json.competencies.conviction = compSwitch(convictionComp, competenciesdata.conviction);
-    json.competencies.creativity = compSwitch(creativityComp, competenciesdata.creativity);
-    json.competencies.ambiguity = compSwitch(ambiguityComp, competenciesdata.ambiguity);
-    json.competencies.integrity = compSwitch(integrityComp, competenciesdata.integrity);
-    json.competencies.intellectual = compSwitch(intellectualComp, competenciesdata.intellectual);
-    json.competencies.confidence = compSwitch(confidenceComp, competenciesdata.confidence);
-    json.competencies.development = compSwitch(developmentComp, competenciesdata.development);
-    json.competencies.decision = compSwitch(decisionComp, competenciesdata.decision);
-    json.competencies.results = compSwitch(resultsComp, competenciesdata.results);
-    json.competencies.systems = compSwitch(systemsComp, competenciesdata.systems);
-    json.competencies.performanceComp = compSwitch(performanceComp, competenciesdata.performance);
-    json.competencies.coordinating = compSwitch(coordinatingComp, competenciesdata.coordinating);
-    json.competencies.solving = compSwitch(solvingComp, competenciesdata.solving);
-    json.competencies.customer = compSwitch(customerComp, competenciesdata.customer);
-    json.competencies.representing = compSwitch(representingComp, competenciesdata.representing);
+    const compVariables = {
+      actionComp: actionComp,
+      composureComp: composureComp,
+      convictionComp: convictionComp,
+      creativityComp: creativityComp,
+      ambiguityComp: ambiguityComp,
+      integrityComp: integrityComp,
+      intellectualComp: intellectualComp,
+      confidenceComp: confidenceComp,
+      developmentComp: developmentComp,
+      decisionComp: decisionComp,
+      resultsComp: resultsComp,
+      systemsComp: systemsComp,
+      performanceComp: performanceComp,
+      coordinatingComp: coordinatingComp,
+      solvingComp: solvingComp,
+      customerComp: customerComp,
+      representingComp: representingComp
+    }
 
+    json.showCompetencies = hasTruthyValue(compVariables) ? true : false;
+
+    json.competencies = {}
+
+    for (const compName in compVariables) {
+      const level = compVariables[compName];
+      const correctComps = compSwitch(level, competenciesdata[compName])
+      json.competencies[compName] = {};
+      json.competencies[compName].name = competenciesdata[compName].name;
+      json.competencies[compName].list = correctComps;
+      json.competencies[compName].render = level ? true : false;
+    }
 
     // Create formatted date string
     const formattedDate = format(new Date(), 'PPP');

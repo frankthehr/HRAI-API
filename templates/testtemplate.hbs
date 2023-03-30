@@ -69,7 +69,7 @@
     .details,
     .overview,
     .responsibility,
-    .competency,
+    .competencies,
     .profile,
     .qualification,
     .pdf-footer {
@@ -143,18 +143,25 @@
       padding: 1rem;
     }
 
-    .competency {
+    .competencies {
       display: flex;
       flex-direction: column;
       width: 100%;
       border: 1px solid black;
     }
 
-    .competency header {
+    .competencies header {
       display: grid;
       grid-template-columns: 2fr 5fr;
       width: 100%;
       background-color: rgb(200, 200, 200);
+    }
+
+    .competency {
+      display: grid;
+      grid-template-columns: 2fr 5fr;
+      width: 100%;
+      border-top: 1px solid black;
     }
 
     .competency-name {
@@ -165,21 +172,6 @@
     .competency-description {
       padding: 0.25rem;
       padding-left: 0.5rem;
-    }
-
-    .comp-action,
-    .comp-composure,
-    .comp-conviction,
-    .comp-creativity,
-    .comp-ambiguity,
-    .comp-integrity,
-    .comp-confidence,
-    .comp-intellectual,
-    .comp-solving {
-      display: grid;
-      grid-template-columns: 2fr 5fr;
-      width: 100%;
-      border-top: 1px solid black;
     }
 
     .qualification {
@@ -306,8 +298,8 @@
       </div>
     </div>
 
-    {{#if competencies.show}}
-      <div class="competency">
+    {{#if showCompetencies}}
+      <div class="competencies">
       <header>
         <div class="competency-name">
           <h3>Competency Required</h3>
@@ -317,8 +309,98 @@
           <h3>Description of competency</h3>
         </div>
       </header>
-      
-      {{#if competencies.action}}
+
+      {{#each competencies}}
+        {{#if this.render}}
+          <div class="competency">
+            <div class="competency-name">
+              <h4>{{this.name}}</h4>
+            </div>
+
+            <div class="competency-description">
+              <ul>
+                {{#each this.list}}
+                  <li>&#x2022; {{this}}</li>
+                {{/each}}
+              </ul> 
+            </div>
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    
+
+    <div class="profile">
+      <header>
+        <h3>Candidate Profile</h3>
+      </header>
+
+      <h4>Qualifications</h4>
+
+      <p>This section should describe the education and experience required / preferred for the position.</p>
+    </div>
+
+    <div class="qualification">
+      <header>
+        <div class="qualification-name">
+          <h3>Area Qualification</h3>
+        </div>
+
+        <div class="qualification-description">
+          <h3>Description of what's needed</h3>
+        </div>
+      </header>
+
+      {{#if request.years}}
+        <div class="qual-experience">
+          <div class="qualification-name">
+            <h4>Experience</h4>
+          </div>
+
+          <div class="qualification-description">
+            <p>{{ request.years }} Years of Relevant Experience required</p> 
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if request.education}}
+        <div class="qual-education">
+          <div class="qualification-name">
+            <h4>Education</h4>
+          </div>
+
+          <div class="qualification-description">
+            <p>{{ request.education }} required</p>
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if request.study }}
+        <div class="qual-study">
+          <div class="qualification-name">
+            <h4>Field of Study</h4>
+          </div>
+
+          <div class="qualification-description">
+            <p>The desired field of study is {{ request.study }}</p>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+
+    <footer class="pdf-footer">
+      <p>This description has been designed to indicate the general nature of and the criteria required to perform this function. It will be subject to regular review with the post holder and your Manager.</p>
+
+      {{#if company.trading}}
+        <p>{{ company.name }} trading as {{ company.trading }} is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
+      {{else}}
+        <p>{{ company.name }} is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
+      {{/if}}
+    </footer>
+
+    {{!-- {{#if competencies.action}}
         <div class="comp-action">
           <div class="competency-name">
             <h4>Action Orientated</h4>
@@ -444,117 +526,8 @@
             </ul> 
           </div>
         </div>
-      {{/if}}
+      {{/if}} --}}
 
-
-
-
-
-      {{!-- Add here --}}
-
-      {{#if competencies.solving}}
-        <div class="comp-solving">
-          <div class="competency-name">
-            <h4>Problem Solving</h4>
-          </div>
-
-          <div class="competency-description">
-            <ul>
-              {{#each competencies.solving}}
-                <li>&#x2022; {{this}}</li>
-              {{/each}}
-            </ul> 
-          </div>
-        </div>
-      {{/if}}
-    </div>
-    {{/if}}
-
-    {{#each competencies}}
-      {{#if this}}
-        <div class="comp-solving">
-          <div class="competency-name">
-            <h4>Problem Solving</h4>
-          </div>
-
-          <div class="competency-description">
-            <ul>
-              {{#each this}}
-                <li>&#x2022; {{this}}</li>
-              {{/each}}
-            </ul> 
-          </div>
-        </div>
-      {{/if}}
-    {{/each}}
-
-    <div class="profile">
-      <header>
-        <h3>Candidate Profile</h3>
-      </header>
-
-      <h4>Qualifications</h4>
-
-      <p>This section should describe the education and experience required / preferred for the position.</p>
-    </div>
-
-    <div class="qualification">
-      <header>
-        <div class="qualification-name">
-          <h3>Area Qualification</h3>
-        </div>
-
-        <div class="qualification-description">
-          <h3>Description of what's needed</h3>
-        </div>
-      </header>
-
-      {{#if request.years}}
-        <div class="qual-experience">
-          <div class="qualification-name">
-            <h4>Experience</h4>
-          </div>
-
-          <div class="qualification-description">
-            <p>{{ request.years }} Years of Relevant Experience required</p> 
-          </div>
-        </div>
-      {{/if}}
-
-      {{#if request.education}}
-        <div class="qual-education">
-          <div class="qualification-name">
-            <h4>Education</h4>
-          </div>
-
-          <div class="qualification-description">
-            <p>{{ request.education }} required</p>
-          </div>
-        </div>
-      {{/if}}
-
-      {{#if request.study }}
-        <div class="qual-study">
-          <div class="qualification-name">
-            <h4>Field of Study</h4>
-          </div>
-
-          <div class="qualification-description">
-            <p>The desired field of study is {{ request.study }}</p>
-          </div>
-        </div>
-      {{/if}}
-    </div>
-
-    <footer class="pdf-footer">
-      <p>This description has been designed to indicate the general nature of and the criteria required to perform this function. It will be subject to regular review with the post holder and your Manager.</p>
-
-      {{#if company.trading}}
-        <p>{{ company.name }} trading as {{ company.trading }} is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
-      {{else}}
-        <p>{{ company.name }} is an equal opportunity employer and does not discriminate against individuals on the basis of gender, age, race, colour, nationality, ethnic or national origin, religion, marital status, family status, sexual orientation, disability or membership of the travelling community.</p>
-      {{/if}}
-    </footer>
 
 </body>
 </html>

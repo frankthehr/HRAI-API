@@ -28,7 +28,7 @@ const educationSwitch = (level, edu) => {
     case 4:
       return edu.four;
     default:
-      return undefined;
+      return edu.none;
   }
 }
 

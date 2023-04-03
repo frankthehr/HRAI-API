@@ -73,7 +73,11 @@
     .profile,
     .qualification,
     .pdf-footer {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .pdf-footer {
+      margin-top: 1rem;
     }
 
     .title {
@@ -219,7 +223,7 @@
       background-color: black;
       padding: 0.1rem;
       padding-left: 0.5rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     .profile h3 {
@@ -360,22 +364,20 @@
           </div>
 
           <div class="qualification-description">
-            <p>{{ request.years }} Years of Relevant Experience required</p> 
+            <p>{{ request.years }} years of relevant experience required.</p> 
           </div>
         </div>
       {{/if}}
 
-      {{#if request.education}}
-        <div class="qual-education">
-          <div class="qualification-name">
-            <h4>Education</h4>
-          </div>
-
-          <div class="qualification-description">
-            <p>{{ request.education }} required</p>
-          </div>
+      <div class="qual-education">
+        <div class="qualification-name">
+          <h4>Education</h4>
         </div>
-      {{/if}}
+
+        <div class="qualification-description">
+          <p>{{ request.education }} required.</p>
+        </div>
+      </div>
 
       {{#if request.study }}
         <div class="qual-study">
@@ -384,7 +386,7 @@
           </div>
 
           <div class="qualification-description">
-            <p>The desired field of study is {{ request.study }}</p>
+            <p>The desired field of study is {{ request.study }}.</p>
           </div>
         </div>
       {{/if}}

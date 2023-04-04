@@ -80,9 +80,9 @@ const jsonifyCompletion = async function(req, res, next) {
     // Remove all characters after the JSON object
     let parsedCompletion = removeTrailing(parsedLeadingCompletion);
 
-    console.log(parsedCompletion);
-
     parsedCompletion = parsedCompletion.replace(/(\w+)\s*:/g, '"$1":');
+
+    console.log(parsedCompletion);
 
     // Convert completion from string representation of JSON to actual JSON
     const completionJSON = JSON.parse(parsedCompletion);

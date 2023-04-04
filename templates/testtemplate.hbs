@@ -65,19 +65,43 @@
       gap: 0.25rem;
     }
 
+    .logo,
     .title,
-    .details,
     .overview,
     .responsibility,
-    .competencies,
     .profile,
-    .qualification,
     .pdf-footer {
       margin-bottom: 1rem;
     }
 
-    .pdf-footer {
-      margin-top: 1rem;
+    .details-wrapper {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .logo,
+    .competencies-wrapper,
+    .pdf-footer-wrapper {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-qualification-wrapper {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      max-width: 100%;
+    }
+
+    .logo img {
+      height: auto;
+      max-width: 100%;
     }
 
     .title {
@@ -115,8 +139,9 @@
     .overview header {
       width: 100%;
       background-color: black;
-      padding: 0.1rem;
+      padding: 0.2rem;
       padding-left: 0.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .overview h3 {
@@ -132,7 +157,7 @@
 
     .responsibility header {
       width: 100%;
-      padding: 0.1rem;
+      padding: 0.25rem;
       padding-left: 0.5rem;
       border-bottom: 1px solid black;
       background-color: rgb(200, 200, 200);
@@ -144,13 +169,13 @@
 
     .responsibility div {
       width: 100%;
-      padding: 1rem;
+      padding: 0.25rem;
+      padding-left: 0.5rem;
     }
 
     .competency-heading {
-      font-weight: 500;
       font-weight: bold;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     .competencies {
@@ -221,13 +246,14 @@
     .profile {
       display: flex;
       flex-direction: column;
+      margin-bottom: 0.5rem;
       width: 100%;
     }
 
     .profile header {
       width: 100%;
       background-color: black;
-      padding: 0.1rem;
+      padding: 0.2rem;
       padding-left: 0.5rem;
       margin-bottom: 0.5rem;
     }
@@ -255,17 +281,13 @@
       break-inside: avoid;
     }
 
-    .details-wrapper,
-    .competencies-wrapper,
-    .prolfile-qualification-wrapper,
-    .pdf-footer-wrapper {
-      width: 100%;
-      margin-bottom: 2rem;
-    }
-
   </style>
 </head>
 <body>
+
+    <div class="logo">
+      <img src={{ logo.src }} alt={{logo.alt}}>
+    </div>
 
     <header class="title">
       {{#if company.trading}}
@@ -362,7 +384,7 @@
     {{/if}}
 
     
-    <div class="prolfile-qualification-wrapper">
+    <div class="profile-qualification-wrapper">
 
       <div class="profile">
         <header>

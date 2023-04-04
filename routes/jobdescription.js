@@ -152,6 +152,25 @@ const populateJSON = async function(req, res, next) {
     json.employee.first_name = portaldata.employee.first_name;
     json.employee.last_name = portaldata.employee.last_name;
 
+    // Adding logo data
+    json.logo = {}
+
+    const __dirname = path.resolve(path.dirname(''));
+
+    const imagePath = path.join(__dirname, 'public', 'images', 'hrcompanylogo.png');
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    // Convert the Buffer to a Base64-encoded data URL
+    const imageSrc = `data:image/png;base64,${imageBuffer.toString('base64')}`;
+
+    json.logo.src = imageSrc;
+
+
+
+
+
+    // Figure out way to import correct logo URL
+
     // Add compentencies data to JSON
     const compVariables = {
       actionComp: actionComp,
@@ -257,5 +276,3 @@ router
   })
 
 export default router;
-
-

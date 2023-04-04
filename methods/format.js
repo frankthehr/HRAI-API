@@ -28,4 +28,11 @@ const prependBulletpoint = (string) => {
   return formattedString;
 }
 
-export { createPrompt, removeLeading, removeTrailing, prependBulletpoint }
+// Capitalises the first letter of every word in a string
+function capitalizeWords(str) {
+  return str.replace(/\b\w/g, function (l) {
+    return l.toUpperCase();
+  });
+}
+
+export { createPrompt, removeLeading, removeTrailing, prependBulletpoint, capitalizeWords }

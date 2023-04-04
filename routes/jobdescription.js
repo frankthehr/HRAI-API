@@ -11,7 +11,7 @@ import portaldata from '../data/portaldata.json' assert { type: "json" };
 import educationdata from '../data/educationdata.json' assert { type: "json"};
 import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
 import { compSwitch, educationSwitch, studySwitch } from '../methods/switch.js';
-import { createPrompt, removeLeading, removeTrailing, prependBulletpoint } from '../methods/format.js';
+import { createPrompt, removeLeading, removeTrailing, prependBulletpoint, capitalizeWords } from '../methods/format.js';
 import { hasTruthyValue } from '../methods/utilities.js';
 
 dotenv.config();
@@ -103,20 +103,18 @@ const populateJSON = async function(req, res, next) {
     // const json = req.completionJSON;
     const completionJSON = req.completionJSON;
 
+
     const json = {};
     json.completion = {};
-    json.completion.job_title = completionJSON.job_title;
-    json.completion.location = completionJSON.location;
     json.completion.job_overview = completionJSON.job_overview;
     json.completion.requirements = completionJSON.requirements;
-    json.completion.years_of_experience = completionJSON.years_of_experience;
     json.completion.contact_details = completionJSON.contact_details;
 
     // Get prompt variables from request
-    let title = req.body.title;
     let years = req.body.years;
     let email = req.body.email;
-    let location = req.body.location;
+    let title = capitalizeWords(req.body.title);
+    let location = capitalizeWords(req.body.location);
     let study = Number(req.body.study);
     let education = Number(req.body.education);
     let actionComp = Number(req.body.competencies.actionComp.value);
@@ -138,13 +136,13 @@ const populateJSON = async function(req, res, next) {
     let representingComp = Number(req.body.competencies.representingComp.value);
 
     // Adding request data to JSON object
-    json.request = {};
-    json.request.title = title;
-    json.request.years = years;
-    json.request.email = email;
-    json.request.location = location;
-    json.request.education = educationSwitch(education, educationdata);
-    json.request.study = studySwitch(study, studydata);
+    json.details = {};
+    json.details.title = title;
+    json.details.years = years;
+    json.details.email = email;
+    json.details.location = location;
+    json.details.education = educationSwitch(education, educationdata);
+    json.details.study = studySwitch(study, studydata);
 
     // Adding portal data to JSON object
     json.company = {};
@@ -175,10 +173,12 @@ const populateJSON = async function(req, res, next) {
       representingComp: representingComp
     }
 
+    // Assign showCompetencies property true if any competencies are entered, false otherwise
     json.showCompetencies = hasTruthyValue(compVariables) ? true : false;
 
     json.competencies = {}
 
+    // For each competency, add it to JSON object with name, list of attributes for selected level and whether to render or not
     for (const compName in compVariables) {
       const level = compVariables[compName];
       const correctComps = compSwitch(level, competenciesdata[compName])

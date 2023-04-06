@@ -1,3 +1,4 @@
+// Package Imports
 import path from 'path';
 import fs from 'fs-extra';
 import dotenv from 'dotenv';
@@ -6,12 +7,16 @@ import express  from 'express';
 import puppeteer from 'puppeteer';
 import { format } from 'date-fns';
 import { Configuration, OpenAIApi } from "openai";
+
+// Data Imports
 import studydata from '../data/studydata.json' assert { type: "json" };
 import portaldata from '../data/portaldata.json' assert { type: "json" };
 import educationdata from '../data/educationdata.json' assert { type: "json"};
 import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
+
+// Method Imports
 import { compSwitch, educationSwitch, studySwitch } from '../methods/switch.js';
-import { createPrompt, removeLeading, removeTrailing, prependBulletpoint, capitalizeWords } from '../methods/format.js';
+import { createPrompt, removeLeading, removeTrailing, capitalizeWords } from '../methods/format.js';
 import { hasTruthyValue } from '../methods/utilities.js';
 
 dotenv.config();
@@ -80,6 +85,7 @@ const jsonifyCompletion = async function(req, res, next) {
     // Remove all characters after the JSON object
     let parsedCompletion = removeTrailing(parsedLeadingCompletion);
 
+    // Add quotes to property names if they dont have them
     parsedCompletion = parsedCompletion.replace(/(\w+)\s*:/g, '"$1":');
 
     console.log(parsedCompletion);
@@ -103,7 +109,7 @@ const populateJSON = async function(req, res, next) {
     // const json = req.completionJSON;
     const completionJSON = req.completionJSON;
 
-
+    // Set up JSON with completion data
     const json = {};
     json.completion = {};
     json.completion.job_overview = completionJSON.job_overview;
@@ -152,24 +158,19 @@ const populateJSON = async function(req, res, next) {
     json.employee.first_name = portaldata.employee.first_name;
     json.employee.last_name = portaldata.employee.last_name;
 
-    // Adding logo data
-    json.logo = {}
+    // Add logo object to JSON
+    json.logo = {};
 
+    // Get working directory
     const __dirname = path.resolve(path.dirname(''));
 
+    // Create image path
     const imagePath = path.join(__dirname, 'public', 'images', 'hrcompanylogo.png');
     const imageBuffer = fs.readFileSync(imagePath);
 
     // Convert the Buffer to a Base64-encoded data URL
     const imageSrc = `data:image/png;base64,${imageBuffer.toString('base64')}`;
-
     json.logo.src = imageSrc;
-
-
-
-
-
-    // Figure out way to import correct logo URL
 
     // Add compentencies data to JSON
     const compVariables = {
@@ -195,6 +196,7 @@ const populateJSON = async function(req, res, next) {
     // Assign showCompetencies property true if any competencies are entered, false otherwise
     json.showCompetencies = hasTruthyValue(compVariables) ? true : false;
 
+    // Inititate compentencies property as part of JSON object
     json.competencies = {}
 
     // For each competency, add it to JSON object with name, list of attributes for selected level and whether to render or not
@@ -245,6 +247,8 @@ const createPDF = async function(req, res, next) {
       margin: { top: "2cm", bottom: "2cm", left: "2cm", right: "2cm" },
       printBackground: true
     })
+
+    console.log(typeof pdf)
 
     // Store PDF in request (as data)
     req.pdf = pdf;

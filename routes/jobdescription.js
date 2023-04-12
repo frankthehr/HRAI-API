@@ -116,12 +116,9 @@ const createPDF = async function(req, res, next) {
       printBackground: true
     })
 
-    console.log(typeof pdf)
-
     // Store PDF in request (as data)
     req.pdf = pdf;
 
-    console.log('Done');
     await browser.close();
 
     next();

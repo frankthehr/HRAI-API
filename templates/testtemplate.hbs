@@ -182,7 +182,6 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      border: 1px solid black;
     }
 
     .competencies header {
@@ -190,13 +189,18 @@
       grid-template-columns: 2fr 5fr;
       width: 100%;
       background-color: rgb(200, 200, 200);
+      border: 1px solid black;
+    }
+
+    .competency-wrapper {
+      border: 1px solid black;
+      border-top: none;
     }
 
     .competency {
       display: grid;
       grid-template-columns: 2fr 5fr;
       width: 100%;
-      border-top: 1px solid black;
     }
 
     .competency-name {
@@ -363,17 +367,19 @@
 
           {{#each competencies}}
             {{#if this.render}}
-              <div class="competency">
-                <div class="competency-name">
-                  <h4>{{this.name}}</h4>
-                </div>
+              <div class="competency-wrapper avoid-break">
+                <div class="competency">
+                  <div class="competency-name">
+                    <h4>{{this.name}}</h4>
+                  </div>
 
-                <div class="competency-description">
-                  <ul>
-                    {{#each this.list}}
-                      <li>&#x2022; {{this}}</li>
-                    {{/each}}
-                  </ul> 
+                  <div class="competency-description">
+                    <ul>
+                      {{#each this.list}}
+                        <li>&#x2022; {{this}}</li>
+                      {{/each}}
+                    </ul> 
+                  </div>
                 </div>
               </div>
             {{/if}}

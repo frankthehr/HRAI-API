@@ -1,23 +1,17 @@
 // Package Imports
 import path from 'path';
-import fs from 'fs-extra';
 import dotenv from 'dotenv';
 import hbs from 'handlebars';
 import express  from 'express';
 import puppeteer from 'puppeteer';
-import { format } from 'date-fns';
+import { promises as fsPromises } from 'fs';
 import { Configuration, OpenAIApi } from "openai";
 
-// Data Imports
-import studydata from '../data/studydata.json' assert { type: "json" };
-import portaldata from '../data/portaldata.json' assert { type: "json" };
-import educationdata from '../data/educationdata.json' assert { type: "json"};
-import competenciesdata from '../data/competenciesdata.json' assert { type: "json"};
+// Middleware
+import populateJSON from '../middleware/jsonPopulator.js';
 
 // Method Imports
-import { compSwitch, educationSwitch, studySwitch } from '../methods/switch.js';
-import { createPrompt, removeLeading, removeTrailing, capitalizeWords } from '../methods/format.js';
-import { hasTruthyValue } from '../methods/utilities.js';
+import { createPrompt, removeLeading, removeTrailing } from '../methods/format.js';
 
 dotenv.config();
 
@@ -32,13 +26,12 @@ const openai = new OpenAIApi(configuration);
 // Compiles passed data into passed template
 const compilePDf = async function(templateType, data) {
   const filePath = path.join(process.cwd(), 'templates', `${templateType}.hbs`);
-  const html = await fs.readFile(filePath, 'utf-8');
+  const html = await fsPromises.readFile(filePath, 'utf-8');
   return hbs.compile(html)(data);
 }
 
-const callAPI = async function(req, res, next) {
+const callAPI = async function (req, res, next) {
   try {
-
     // Get prompt variables from request
     let title = req.body.title;
     let years = req.body.years;
@@ -48,16 +41,46 @@ const callAPI = async function(req, res, next) {
     // Create prompt with request variables
     const prompt = createPrompt(title, location, years, email);
 
-    // Call OpenAi Completion API
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt,
-      max_tokens: 700,
-      temperature: 1
-    });
+    let response;
+    let completion;
+    let retries = 3;
+    let validCompletion = false;
 
-    // Assign completion from response to variable
-    const completion = response.data.choices[0].text;
+    while (!validCompletion && retries > 0) {
+      try {
+        // Call OpenAi Completion API
+        response = await openai.createCompletion({
+          model: "text-davinci-003",
+          prompt,
+          max_tokens: 700,
+          temperature: 1,
+        });
+
+        // Assign completion from response to variable
+        completion = response.data.choices[0].text;
+
+        // Try to parse the completion as JSON
+        let completionCleaned = completion.replace(/[\n\r]/g, "");
+        completionCleaned = removeLeading(completionCleaned);
+        completionCleaned = removeTrailing(completionCleaned);
+        completionCleaned = completionCleaned.replace(/(\w+)\s*:/g, '"$1":');
+        const completionJSON = JSON.parse(completionCleaned);
+
+        // Store completion JSON in request
+        req.completionJSON = completionJSON;
+
+        // Set valid completion to true to prevent loop
+        validCompletion = true;
+
+      } catch (error) {
+        console.log("Invalid completion format, retrying...");
+        retries--;
+      }
+    }
+
+    if (!validCompletion) {
+      throw new Error("Failed to get valid completion after retries");
+    }
 
     // Store completion and prompt in request
     req.prompt = prompt;
@@ -68,162 +91,7 @@ const callAPI = async function(req, res, next) {
     console.log(error.message);
     next(error);
   }
-}
-
-const jsonifyCompletion = async function(req, res, next) {
-  try {
-
-    // Get completion
-    const completion = req.completion;
-
-    // Remove all newline characters from completion
-    const completionCleaned = completion.replace(/[\n\r]/g, '');
-
-    // Remove all characters before the JSON object
-    const parsedLeadingCompletion = removeLeading(completionCleaned);
-
-    // Remove all characters after the JSON object
-    let parsedCompletion = removeTrailing(parsedLeadingCompletion);
-
-    // Add quotes to property names if they dont have them
-    parsedCompletion = parsedCompletion.replace(/(\w+)\s*:/g, '"$1":');
-
-    console.log(parsedCompletion);
-
-    // Convert completion from string representation of JSON to actual JSON
-    const completionJSON = JSON.parse(parsedCompletion);
-
-    // Store completion JSON in request
-    req.completionJSON = completionJSON;
-
-    next();
-  } catch (error) {
-    console.log(error.message);
-    next(error);
-  }
-}
-
-const populateJSON = async function(req, res, next) {
-  try {
-
-    // const json = req.completionJSON;
-    const completionJSON = req.completionJSON;
-
-    // Set up JSON with completion data
-    const json = {};
-    json.completion = {};
-    json.completion.job_overview = completionJSON.job_overview;
-    json.completion.requirements = completionJSON.requirements;
-    json.completion.contact_details = completionJSON.contact_details;
-
-    // Get prompt variables from request
-    let years = req.body.years;
-    let email = req.body.email;
-    let title = capitalizeWords(req.body.title);
-    let location = capitalizeWords(req.body.location);
-    let study = Number(req.body.study);
-    let education = Number(req.body.education);
-    let actionComp = Number(req.body.competencies.actionComp.value);
-    let composureComp = Number(req.body.competencies.composureComp.value);
-    let convictionComp = Number(req.body.competencies.convictionComp.value);
-    let creativityComp = Number(req.body.competencies.creativityComp.value);
-    let ambiguityComp = Number(req.body.competencies.ambiguityComp.value);
-    let integrityComp = Number(req.body.competencies.integrityComp.value);
-    let intellectualComp = Number(req.body.competencies.intellectualComp.value);
-    let confidenceComp = Number(req.body.competencies.confidenceComp.value);
-    let developmentComp = Number(req.body.competencies.developmentComp.value);
-    let decisionComp = Number(req.body.competencies.decisionComp.value);
-    let resultsComp = Number(req.body.competencies.resultsComp.value);
-    let systemsComp = Number(req.body.competencies.systemsComp.value);
-    let performanceComp = Number(req.body.competencies.performanceComp.value);
-    let coordinatingComp = Number(req.body.competencies.coordinatingComp.value);
-    let solvingComp = Number(req.body.competencies.solvingComp.value);
-    let customerComp = Number(req.body.competencies.customerComp.value);
-    let representingComp = Number(req.body.competencies.representingComp.value);
-
-    // Adding request data to JSON object
-    json.details = {};
-    json.details.title = title;
-    json.details.years = years;
-    json.details.email = email;
-    json.details.location = location;
-    json.details.education = educationSwitch(education, educationdata);
-    json.details.study = studySwitch(study, studydata);
-
-    // Adding portal data to JSON object
-    json.company = {};
-    json.employee = {};
-    json.company.name = portaldata.company.name;
-    json.company.trading = portaldata.company.trading;
-    json.employee.first_name = portaldata.employee.first_name;
-    json.employee.last_name = portaldata.employee.last_name;
-
-    // Add logo object to JSON
-    json.logo = {};
-
-    // Get working directory
-    const __dirname = path.resolve(path.dirname(''));
-
-    // Create image path
-    const imagePath = path.join(__dirname, 'public', 'images', 'hrcompanylogo.png');
-    const imageBuffer = fs.readFileSync(imagePath);
-
-    // Convert the Buffer to a Base64-encoded data URL
-    const imageSrc = `data:image/png;base64,${imageBuffer.toString('base64')}`;
-    json.logo.src = imageSrc;
-
-    // Add compentencies data to JSON
-    const compVariables = {
-      actionComp: actionComp,
-      composureComp: composureComp,
-      convictionComp: convictionComp,
-      creativityComp: creativityComp,
-      ambiguityComp: ambiguityComp,
-      integrityComp: integrityComp,
-      intellectualComp: intellectualComp,
-      confidenceComp: confidenceComp,
-      developmentComp: developmentComp,
-      decisionComp: decisionComp,
-      resultsComp: resultsComp,
-      systemsComp: systemsComp,
-      performanceComp: performanceComp,
-      coordinatingComp: coordinatingComp,
-      solvingComp: solvingComp,
-      customerComp: customerComp,
-      representingComp: representingComp
-    }
-
-    // Assign showCompetencies property true if any competencies are entered, false otherwise
-    json.showCompetencies = hasTruthyValue(compVariables) ? true : false;
-
-    // Inititate compentencies property as part of JSON object
-    json.competencies = {}
-
-    // For each competency, add it to JSON object with name, list of attributes for selected level and whether to render or not
-    for (const compName in compVariables) {
-      const level = compVariables[compName];
-      const correctComps = compSwitch(level, competenciesdata[compName])
-      json.competencies[compName] = {};
-      json.competencies[compName].name = competenciesdata[compName].name;
-      json.competencies[compName].list = correctComps;
-      json.competencies[compName].render = level ? true : false;
-    }
-
-    // Create formatted date string
-    const formattedDate = format(new Date(), 'PPP');
-
-    // Add date object to JSON
-    json.date = formattedDate;
-
-    // Store JSON in request
-    req.json = json;
-
-    next();
-  } catch (error) {
-    console.log(error.message);
-    next(error);
-  }
-}
+};
 
 const createPDF = async function(req, res, next) {
   try {
@@ -265,7 +133,7 @@ const createPDF = async function(req, res, next) {
 
 router
   .route('/')
-  .post([callAPI, jsonifyCompletion, populateJSON, createPDF], function(req, res) {
+  .post([callAPI, populateJSON, createPDF], function(req, res) {
     console.log('Job Description Generated');
 
     // Store PDF as variable

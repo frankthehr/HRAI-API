@@ -13,14 +13,18 @@ import populateJSON from '../middleware/jsonPopulator.js';
 // Method Imports
 import { createPrompt, removeLeading, removeTrailing } from '../methods/format.js';
 
+// Load environement variables to process.env
 dotenv.config();
 
+// Creates new router instance
 const router = express.Router();
 
+// Create OpenAI API configuration with key
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Create OpenAi Object
 const openai = new OpenAIApi(configuration);
 
 // Compiles passed data into passed template
@@ -78,6 +82,7 @@ const callAPI = async function (req, res, next) {
       }
     }
 
+    // Throw error if no valid completion after all trys
     if (!validCompletion) {
       throw new Error("Failed to get valid completion after retries");
     }

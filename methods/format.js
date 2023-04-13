@@ -4,7 +4,7 @@
 //   return prompt;
 // }
 
-const createPrompt = (title, location, years, email) => {
+const createPrompt = (title, location, years) => {
   let prompt = `Please write  job description in valid JSON format for the position of a ${title} in ${location} with ${years} years of experience. The JSON object should have the following keys: "job_title", "location", "job_overview", "requirements" and "years_of_experience".The job overview should be detailed and lengthy. The "requirements" key should contain an array of at least 8 strings, with each requirement being detailed and long. Ensure that the keys are enclosed in double quotes and that the JSON format is strictly followed.`;
   return prompt;
 }

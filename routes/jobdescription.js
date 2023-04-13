@@ -39,11 +39,10 @@ const callAPI = async function (req, res, next) {
     // Get prompt variables from request
     let title = req.body.title;
     let years = req.body.years;
-    let email = req.body.email;
     let location = req.body.location;
 
     // Create prompt with request variables
-    const prompt = createPrompt(title, location, years, email);
+    const prompt = createPrompt(title, location, years);
 
     let response;
     let completion;
@@ -109,7 +108,7 @@ const createPDF = async function(req, res, next) {
     const page = await browser.newPage();
 
     // Create PDF content from template and JSON object
-    const content = await compilePDf('testtemplate', jsondata);
+    const content = await compilePDf('template', jsondata);
 
     // Add content to page
     await page.setContent(content);

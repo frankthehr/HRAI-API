@@ -5,8 +5,6 @@ import jobDescription from './routes/jobdescription.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-// app.use(express.static('public'));
-app.use('/static', express.static('public'));
 
 // Error handling middleware
 function errorHandler(err, req, res, next) {

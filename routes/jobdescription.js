@@ -47,7 +47,7 @@ const callAPI = async function (req, res, next) {
 
     let response;
     let completion;
-    let retries = 3;
+    let retries = 5;
     let validCompletion = false;
 
     while (!validCompletion && retries > 0) {
@@ -88,7 +88,6 @@ const callAPI = async function (req, res, next) {
     }
 
     if (validCompletion) {
-      console.log(typeof validCompletion);
       console.log('API response succesfully returned and parsed, valid JSON');
     }
 
